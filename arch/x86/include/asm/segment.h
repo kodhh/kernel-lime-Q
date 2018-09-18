@@ -186,7 +186,11 @@
 #define GDT_ENTRY_TLS_MIN		12
 #define GDT_ENTRY_TLS_MAX		14
 
+<<<<<<< HEAD
 #define GDT_ENTRY_CPUNODE		15
+=======
+#define GDT_ENTRY_CPU_NUMBER		15
+>>>>>>> fbc9e69b7a66... UPSTREAM: x86/segments/64: Rename the GDT PER_CPU entry to CPU_NUMBER
 
 /*
  * Number of entries in the GDT table:
@@ -206,7 +210,11 @@
 #define __USER_DS			(GDT_ENTRY_DEFAULT_USER_DS*8 + 3)
 #define __USER32_DS			__USER_DS
 #define __USER_CS			(GDT_ENTRY_DEFAULT_USER_CS*8 + 3)
+<<<<<<< HEAD
 #define __CPUNODE_SEG			(GDT_ENTRY_CPUNODE*8 + 3)
+=======
+#define __CPU_NUMBER_SEG		(GDT_ENTRY_CPU_NUMBER*8 + 3)
+>>>>>>> fbc9e69b7a66... UPSTREAM: x86/segments/64: Rename the GDT PER_CPU entry to CPU_NUMBER
 
 #endif
 

@@ -14,6 +14,7 @@ notrace long
 __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	unsigned int p;
 
 	p = __getcpu();
@@ -25,6 +26,9 @@ __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
 =======
 	vdso_read_cpunode(cpu, node);
 >>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
+=======
+	vdso_read_cpu_node(cpu, node);
+>>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
 	return 0;
 }
 

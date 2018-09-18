@@ -53,6 +53,7 @@ static inline void gtod_write_end(struct vsyscall_gtod_data *s)
 	++s->seq;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_X86_64
 
 #define VGETCPU_CPU_MASK 0xfff
@@ -81,4 +82,6 @@ static inline unsigned int __getcpu(void)
 
 =======
 >>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
+=======
+>>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
 #endif /* _ASM_X86_VGTOD_H */

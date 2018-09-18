@@ -233,28 +233,49 @@
 #define TLS_SIZE			(GDT_ENTRY_TLS_ENTRIES* 8)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 #ifdef CONFIG_X86_64
 
 /* Bit size and mask of CPU number stored in the per CPU data (and TSC_AUX) */
 #define VDSO_CPUNODE_BITS		12
 #define VDSO_CPUNODE_MASK		0xfff
+=======
+#ifdef CONFIG_X86_64
+
+/* Bit size and mask of CPU number stored in the per CPU data (and TSC_AUX) */
+#define VDSO_CPU_SIZE			12
+#define VDSO_CPU_MASK			0xfff
+>>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
 
 #ifndef __ASSEMBLY__
 
 /* Helper functions to store/load CPU and node numbers */
 
+<<<<<<< HEAD
 static inline unsigned long vdso_encode_cpunode(int cpu, unsigned long node)
 {
 	return (node << VDSO_CPUNODE_BITS) | cpu;
 }
 
 static inline void vdso_read_cpunode(unsigned *cpu, unsigned *node)
+=======
+static inline unsigned long vdso_encode_cpu_node(int cpu, unsigned long node)
+{
+	return ((node << VDSO_CPU_SIZE) | cpu);
+}
+
+static inline void vdso_read_cpu_node(unsigned *cpu, unsigned *node)
+>>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
 {
 	unsigned int p;
 
 	/*
+<<<<<<< HEAD
 	 * Load CPU and node number from the GDT.  LSL is faster than RDTSCP
+=======
+	 * Load CPU and node number from GDT.  LSL is faster than RDTSCP
+>>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
 	 * and works on all CPUs.  This is volatile so that it orders
 	 * correctly with respect to barrier() and to keep GCC from cleverly
 	 * hoisting it out of the calling function.
@@ -264,18 +285,30 @@ static inline void vdso_read_cpunode(unsigned *cpu, unsigned *node)
 	alternative_io ("lsl %[seg],%[p]",
 			".byte 0xf3,0x0f,0xc7,0xf8", /* RDPID %eax/rax */
 			X86_FEATURE_RDPID,
+<<<<<<< HEAD
 			[p] "=a" (p), [seg] "r" (__CPUNODE_SEG));
 
 	if (cpu)
 		*cpu = (p & VDSO_CPUNODE_MASK);
 	if (node)
 		*node = (p >> VDSO_CPUNODE_BITS);
+=======
+			[p] "=a" (p), [seg] "r" (__CPU_NUMBER_SEG));
+
+	if (cpu)
+		*cpu = (p & VDSO_CPU_MASK);
+	if (node)
+		*node = (p >> VDSO_CPU_SIZE);
+>>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
 }
 
 #endif /* !__ASSEMBLY__ */
 #endif /* CONFIG_X86_64 */
 
+<<<<<<< HEAD
 >>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
+=======
+>>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
 #ifdef __KERNEL__
 
 /*

@@ -187,10 +187,14 @@
 #define GDT_ENTRY_TLS_MAX		14
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define GDT_ENTRY_CPUNODE		15
 =======
 #define GDT_ENTRY_CPU_NUMBER		15
 >>>>>>> fbc9e69b7a66... UPSTREAM: x86/segments/64: Rename the GDT PER_CPU entry to CPU_NUMBER
+=======
+#define GDT_ENTRY_CPUNODE		15
+>>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
 
 /*
  * Number of entries in the GDT table:
@@ -211,10 +215,14 @@
 #define __USER32_DS			__USER_DS
 #define __USER_CS			(GDT_ENTRY_DEFAULT_USER_CS*8 + 3)
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define __CPUNODE_SEG			(GDT_ENTRY_CPUNODE*8 + 3)
 =======
 #define __CPU_NUMBER_SEG		(GDT_ENTRY_CPU_NUMBER*8 + 3)
 >>>>>>> fbc9e69b7a66... UPSTREAM: x86/segments/64: Rename the GDT PER_CPU entry to CPU_NUMBER
+=======
+#define __CPUNODE_SEG			(GDT_ENTRY_CPUNODE*8 + 3)
+>>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
 
 #endif
 
@@ -244,14 +252,20 @@
 #ifdef CONFIG_X86_64
 
 /* Bit size and mask of CPU number stored in the per CPU data (and TSC_AUX) */
+<<<<<<< HEAD
 #define VDSO_CPU_SIZE			12
 #define VDSO_CPU_MASK			0xfff
 >>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
+=======
+#define VDSO_CPUNODE_BITS		12
+#define VDSO_CPUNODE_MASK		0xfff
+>>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
 
 #ifndef __ASSEMBLY__
 
 /* Helper functions to store/load CPU and node numbers */
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 static inline unsigned long vdso_encode_cpunode(int cpu, unsigned long node)
 {
@@ -261,21 +275,32 @@ static inline unsigned long vdso_encode_cpunode(int cpu, unsigned long node)
 static inline void vdso_read_cpunode(unsigned *cpu, unsigned *node)
 =======
 static inline unsigned long vdso_encode_cpu_node(int cpu, unsigned long node)
+=======
+static inline unsigned long vdso_encode_cpunode(int cpu, unsigned long node)
+>>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
 {
-	return ((node << VDSO_CPU_SIZE) | cpu);
+	return (node << VDSO_CPUNODE_BITS) | cpu;
 }
 
+<<<<<<< HEAD
 static inline void vdso_read_cpu_node(unsigned *cpu, unsigned *node)
 >>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
+=======
+static inline void vdso_read_cpunode(unsigned *cpu, unsigned *node)
+>>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
 {
 	unsigned int p;
 
 	/*
 <<<<<<< HEAD
+<<<<<<< HEAD
 	 * Load CPU and node number from the GDT.  LSL is faster than RDTSCP
 =======
 	 * Load CPU and node number from GDT.  LSL is faster than RDTSCP
 >>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
+=======
+	 * Load CPU and node number from the GDT.  LSL is faster than RDTSCP
+>>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
 	 * and works on all CPUs.  This is volatile so that it orders
 	 * correctly with respect to barrier() and to keep GCC from cleverly
 	 * hoisting it out of the calling function.
@@ -286,6 +311,7 @@ static inline void vdso_read_cpu_node(unsigned *cpu, unsigned *node)
 			".byte 0xf3,0x0f,0xc7,0xf8", /* RDPID %eax/rax */
 			X86_FEATURE_RDPID,
 <<<<<<< HEAD
+<<<<<<< HEAD
 			[p] "=a" (p), [seg] "r" (__CPUNODE_SEG));
 
 	if (cpu)
@@ -294,12 +320,19 @@ static inline void vdso_read_cpu_node(unsigned *cpu, unsigned *node)
 		*node = (p >> VDSO_CPUNODE_BITS);
 =======
 			[p] "=a" (p), [seg] "r" (__CPU_NUMBER_SEG));
+=======
+			[p] "=a" (p), [seg] "r" (__CPUNODE_SEG));
+>>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
 
 	if (cpu)
-		*cpu = (p & VDSO_CPU_MASK);
+		*cpu = (p & VDSO_CPUNODE_MASK);
 	if (node)
+<<<<<<< HEAD
 		*node = (p >> VDSO_CPU_SIZE);
 >>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
+=======
+		*node = (p >> VDSO_CPUNODE_BITS);
+>>>>>>> 0eb9ee107449... UPSTREAM: x86/segments: Introduce the 'CPUNODE' naming to better document the segment limit CPU/node NR trick
 }
 
 #endif /* !__ASSEMBLY__ */

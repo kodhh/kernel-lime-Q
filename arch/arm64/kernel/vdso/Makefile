@@ -12,8 +12,13 @@ obj-vdso := gettimeofday.o note.o sigreturn.o
 targets := $(obj-vdso) vdso.so vdso.so.dbg
 obj-vdso := $(addprefix $(obj)/, $(obj-vdso))
 
+<<<<<<< HEAD
 ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 --hash-style=sysv \
 		--build-id -n -T
+=======
+ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 \
+		$(call ld-option, --hash-style=sysv) -n -T
+>>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
 ccflags-y += $(DISABLE_LTO)
 
 <<<<<<< HEAD
@@ -63,6 +68,7 @@ $(obj)/vdso.o : $(obj)/vdso.so
 $(obj)/vdso.so.dbg: $(src)/vdso.lds $(obj-vdso)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	$(call if_changed,vdsold)
 =======
 	$(call if_changed,ld)
@@ -70,6 +76,9 @@ $(obj)/vdso.so.dbg: $(src)/vdso.lds $(obj-vdso)
 =======
 	$(call if_changed,vdsold_and_vdso_check)
 >>>>>>> cf1b4a8a6701... BACKPORT: arm64: vdso: fix flip/flop vdso build bug
+=======
+	$(call if_changed,ld)
+>>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
 
 # Strip rule for the .so file
 $(obj)/%.so: OBJCOPYFLAGS := -S
@@ -92,6 +101,7 @@ $(obj-vdso): %.o: %.S FORCE
 
 # Actual build commands
 <<<<<<< HEAD
+<<<<<<< HEAD
 quiet_cmd_vdsold = VDSOL   $@
       cmd_vdsold = $(CC) $(c_flags) -Wl,-n -Wl,-T $^ -o $@
 <<<<<<< HEAD
@@ -104,6 +114,10 @@ quiet_cmd_vdsoas = VDSOA   $@
 >>>>>>> b8f06ffcf19c... BACKPORT: arm64: vdso: Cleanup Makefiles
 quiet_cmd_vdsold_and_vdso_check = LD      $@
       cmd_vdsold_and_vdso_check = $(cmd_ld); $(cmd_vdso_check)
+=======
+quiet_cmd_vdsoas = VDSOA   $@
+      cmd_vdsoas = $(CC) $(a_flags) -c -o $@ $<
+>>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
 
 # Install commands for the unstripped file
 quiet_cmd_vdso_install = INSTALL $@

@@ -13,12 +13,17 @@ targets := $(obj-vdso) vdso.so vdso.so.dbg
 obj-vdso := $(addprefix $(obj)/, $(obj-vdso))
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 --hash-style=sysv \
 		--build-id -n -T
 =======
 ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 \
 		$(call ld-option, --hash-style=sysv) -n -T
 >>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
+=======
+ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 --hash-style=sysv \
+		--build-id -n -T
+>>>>>>> 5fecd944e2f0... BACKPORT: arm64: vdso: Explicitly add build-id option
 ccflags-y += $(DISABLE_LTO)
 
 <<<<<<< HEAD

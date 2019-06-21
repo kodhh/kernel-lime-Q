@@ -20,6 +20,7 @@ static inline bool vclock_was_used(int vclock)
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 static inline unsigned gtod_read_begin(const struct vsyscall_gtod_data *s)
 {
 	unsigned ret;
@@ -84,4 +85,6 @@ static inline unsigned int __getcpu(void)
 >>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
 =======
 >>>>>>> bd3bc4995a72... UPSTREAM: x86/vdso: Introduce helper functions for CPU and node number
+=======
+>>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
 #endif /* _ASM_X86_VGTOD_H */

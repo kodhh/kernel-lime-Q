@@ -34,16 +34,22 @@ int __vdso_clock_getres(clockid_t clock_id,
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9abf17e726e1... UPSTREAM: mips: Add clock_gettime64 entry point
 int __vdso_clock_gettime64(clockid_t clock,
 			   struct __kernel_timespec *ts)
 {
 	return __cvdso_clock_gettime(clock, ts);
 }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 =======
 >>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
+=======
+>>>>>>> 9abf17e726e1... UPSTREAM: mips: Add clock_gettime64 entry point
 #else
 
 int __vdso_clock_gettime(clockid_t clock,

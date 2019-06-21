@@ -23,6 +23,7 @@ int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
 	return __cvdso_gettimeofday(tv, tz);
 }
 
+<<<<<<< HEAD
 int __vdso_clock_getres(clockid_t clock_id,
 			struct old_timespec32 *res)
 {
@@ -35,6 +36,8 @@ int __vdso_clock_gettime64(clockid_t clock,
 	return __cvdso_clock_gettime(clock, ts);
 }
 
+=======
+>>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 #else
 
 int __vdso_clock_gettime(clockid_t clock,
@@ -49,10 +52,13 @@ int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
 	return __cvdso_gettimeofday(tv, tz);
 }
 
+<<<<<<< HEAD
 int __vdso_clock_getres(clockid_t clock_id,
 			struct __kernel_timespec *res)
 {
 	return __cvdso_clock_getres(clock_id, res);
 }
 
+=======
+>>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 #endif

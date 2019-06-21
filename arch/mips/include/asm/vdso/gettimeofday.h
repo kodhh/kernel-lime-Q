@@ -22,10 +22,13 @@
 #include <asm/unistd.h>
 #include <asm/vdso.h>
 
+<<<<<<< HEAD
 #define VDSO_HAS_CLOCK_GETRES		1
 
 #define __VDSO_USE_SYSCALL		ULLONG_MAX
 
+=======
+>>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 #ifdef CONFIG_MIPS_CLOCK_VSYSCALL
 
 static __always_inline long gettimeofday_fallback(
@@ -83,6 +86,7 @@ static __always_inline long clock_gettime_fallback(
 	return error ? -ret : ret;
 }
 
+<<<<<<< HEAD
 static __always_inline int clock_getres_fallback(
 					clockid_t _clkid,
 					struct __kernel_timespec *_ts)
@@ -152,6 +156,8 @@ static __always_inline int clock_getres32_fallback(
 }
 #endif
 
+=======
+>>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 #ifdef CONFIG_CSRC_R4K
 
 static __always_inline u64 read_r4k_count(void)
@@ -207,7 +213,11 @@ static __always_inline u64 __arch_get_hw_counter(s32 clock_mode)
 		break;
 #endif
 	default:
+<<<<<<< HEAD
 		cycle_now = __VDSO_USE_SYSCALL;
+=======
+		cycle_now = 0;
+>>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 		break;
 	}
 

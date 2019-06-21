@@ -20,14 +20,19 @@
 #include <asm/pvclock.h>
 #include <asm/mshyperv.h>
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <linux/compat_time.h>
 =======
 >>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
+=======
+#include <linux/compat_time.h>
+>>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
 
 #define __vdso_data (VVAR(_vdso_data))
 
 #define VDSO_HAS_TIME 1
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #define VDSO_HAS_CLOCK_GETRES 1
 
@@ -54,6 +59,10 @@
  */
 extern struct pvclock_vsyscall_time_info pvclock_page
 =======
+=======
+#define VDSO_HAS_CLOCK_GETRES 1
+
+>>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
 #ifdef CONFIG_PARAVIRT_CLOCK
 extern u8 pvclock_page[PAGE_SIZE]
 >>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
@@ -96,6 +105,9 @@ long gettimeofday_fallback(struct __kernel_old_timeval *_tv,
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
 static __always_inline
 long clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
 {
@@ -172,6 +184,9 @@ long gettimeofday_fallback(struct __kernel_old_timeval *_tv,
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
 static __always_inline long
 clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
 {
@@ -189,6 +204,7 @@ clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
 	return ret;
 }
 
+<<<<<<< HEAD
 static __always_inline
 long clock_getres32_fallback(clockid_t _clkid, struct old_timespec32 *_ts)
 {
@@ -213,6 +229,8 @@ static u64 vread_pvclock(void)
 {
 	const struct pvclock_vcpu_time_info *pvti = &pvclock_page.pvti;
 =======
+=======
+>>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
 #endif
 
 #ifdef CONFIG_PARAVIRT_CLOCK

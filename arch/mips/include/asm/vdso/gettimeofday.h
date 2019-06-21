@@ -23,12 +23,17 @@
 #include <asm/vdso.h>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define VDSO_HAS_CLOCK_GETRES		1
 
 #define __VDSO_USE_SYSCALL		ULLONG_MAX
 
 =======
 >>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
+=======
+#define VDSO_HAS_CLOCK_GETRES		1
+
+>>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
 #ifdef CONFIG_MIPS_CLOCK_VSYSCALL
 
 static __always_inline long gettimeofday_fallback(
@@ -87,6 +92,9 @@ static __always_inline long clock_gettime_fallback(
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
 static __always_inline int clock_getres_fallback(
 					clockid_t _clkid,
 					struct __kernel_timespec *_ts)
@@ -111,6 +119,7 @@ static __always_inline int clock_getres_fallback(
 	return error ? -ret : ret;
 }
 
+<<<<<<< HEAD
 #if _MIPS_SIM != _MIPS_SIM_ABI64
 
 #define VDSO_HAS_32BIT_FALLBACK	1
@@ -158,6 +167,8 @@ static __always_inline int clock_getres32_fallback(
 
 =======
 >>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
+=======
+>>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
 #ifdef CONFIG_CSRC_R4K
 
 static __always_inline u64 read_r4k_count(void)

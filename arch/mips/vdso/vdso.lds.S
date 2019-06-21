@@ -100,9 +100,12 @@ VERSION
 		__vdso_clock_gettime;
 		__vdso_gettimeofday;
 		__vdso_clock_getres;
+<<<<<<< HEAD
 #if _MIPS_SIM != _MIPS_SIM_ABI64
 		__vdso_clock_gettime64;
 #endif
+=======
+>>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
 #endif
 	local: *;
 	};

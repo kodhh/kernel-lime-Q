@@ -209,7 +209,11 @@ typedef compat_elf_greg_t		compat_elf_gregset_t[COMPAT_ELF_NGREG];
 ({									\
 	set_thread_flag(TIF_32BIT);					\
  })
+<<<<<<< HEAD
 #ifdef CONFIG_COMPAT_VDSO
+=======
+#ifdef CONFIG_GENERIC_COMPAT_VDSO
+>>>>>>> 8d5e92df4d70... UPSTREAM: arm64: elf: VDSO code page discovery
 #define COMPAT_ARCH_DLINFO						\
 do {									\
 	/*								\
@@ -224,9 +228,12 @@ do {									\
 #else
 #define COMPAT_ARCH_DLINFO
 <<<<<<< HEAD
+<<<<<<< HEAD
 extern int aarch32_setup_vectors_page(struct linux_binprm *bprm,
 				      int uses_interp);
 =======
+=======
+>>>>>>> 8d5e92df4d70... UPSTREAM: arm64: elf: VDSO code page discovery
 #endif
 extern int aarch32_setup_additional_pages(struct linux_binprm *bprm,
 					  int uses_interp);

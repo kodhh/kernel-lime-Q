@@ -3,40 +3,15 @@
 #define _ASM_X86_VGTOD_H
 
 #include <linux/compiler.h>
-#include <linux/clocksource.h>
+#include <asm/clocksource.h>
+#include <vdso/datapage.h>
+#include <vdso/helpers.h>
 
 #ifdef BUILD_VDSO32_64
 typedef u64 gtod_long_t;
 #else
 typedef unsigned long gtod_long_t;
 #endif
-/*
- * vsyscall_gtod_data will be accessed by 32 and 64 bit code at the same time
- * so be carefull by modifying this structure.
- */
-struct vsyscall_gtod_data {
-	unsigned seq;
-
-	int vclock_mode;
-	u64	cycle_last;
-	u64	mask;
-	u32	mult;
-	u32	shift;
-
-	/* open coded 'struct timespec' */
-	u64		wall_time_snsec;
-	gtod_long_t	wall_time_sec;
-	gtod_long_t	monotonic_time_sec;
-	u64		monotonic_time_snsec;
-	gtod_long_t	wall_time_coarse_sec;
-	gtod_long_t	wall_time_coarse_nsec;
-	gtod_long_t	monotonic_time_coarse_sec;
-	gtod_long_t	monotonic_time_coarse_nsec;
-
-	int		tz_minuteswest;
-	int		tz_dsttime;
-};
-extern struct vsyscall_gtod_data vsyscall_gtod_data;
 
 extern int vclocks_used;
 static inline bool vclock_was_used(int vclock)
@@ -44,6 +19,7 @@ static inline bool vclock_was_used(int vclock)
 	return READ_ONCE(vclocks_used) & (1 << vclock);
 }
 
+<<<<<<< HEAD
 static inline unsigned gtod_read_begin(const struct vsyscall_gtod_data *s)
 {
 	unsigned ret;
@@ -103,4 +79,6 @@ static inline unsigned int __getcpu(void)
 
 #endif /* CONFIG_X86_64 */
 
+=======
+>>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
 #endif /* _ASM_X86_VGTOD_H */

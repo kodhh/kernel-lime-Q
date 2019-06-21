@@ -30,6 +30,7 @@
 #include <linux/uaccess.h>
 #include <asm/unistd.h>
 #include <asm/vdso.h>
+<<<<<<< HEAD
 
 struct compat_sigcontext {
 	/* We always set these two fields to 0 */
@@ -66,6 +67,8 @@ struct compat_ucontext {
 	int		__unused[32 - (sizeof (compat_sigset_t) / sizeof (int))];
 	compat_ulong_t	uc_regspace[128] __attribute__((__aligned__(8)));
 };
+=======
+>>>>>>> b312f08a44a1... UPSTREAM: arm64: compat: Get sigreturn trampolines from vDSO
 
 struct compat_vfp_sigframe {
 	compat_ulong_t	magic;

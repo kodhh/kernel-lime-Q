@@ -38,12 +38,22 @@
 #include <asm/vdso_datapage.h>
 
 extern char vdso_start[], vdso_end[];
+#ifdef CONFIG_COMPAT_VDSO
+extern char vdso32_start[], vdso32_end[];
+#endif /* CONFIG_COMPAT_VDSO */
 
 /* vdso_lookup arch_index */
 enum arch_vdso_type {
 	ARM64_VDSO = 0,
+#ifdef CONFIG_COMPAT_VDSO
+	ARM64_VDSO32 = 1,
+#endif /* CONFIG_COMPAT_VDSO */
 };
+#ifdef CONFIG_COMPAT_VDSO
+#define VDSO_TYPES		(ARM64_VDSO32 + 1)
+#else
 #define VDSO_TYPES		(ARM64_VDSO + 1)
+#endif /* CONFIG_COMPAT_VDSO */
 
 struct __vdso_abi {
 	const char *name;
@@ -62,6 +72,13 @@ static struct __vdso_abi vdso_lookup[VDSO_TYPES] __ro_after_init = {
 		.vdso_code_start = vdso_start,
 		.vdso_code_end = vdso_end,
 	},
+#ifdef CONFIG_COMPAT_VDSO
+	{
+		.name = "vdso32",
+		.vdso_code_start = vdso32_start,
+		.vdso_code_end = vdso32_end,
+	},
+#endif /* CONFIG_COMPAT_VDSO */
 };
 
 /*
@@ -173,26 +190,57 @@ up_fail:
  * Create and map the vectors page for AArch32 tasks.
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 static struct page *vectors_page[1] __ro_after_init;
 =======
+=======
+#ifdef CONFIG_COMPAT_VDSO
+static int aarch32_vdso_mremap(const struct vm_special_mapping *sm,
+		struct vm_area_struct *new_vma)
+{
+	return __vdso_remap(ARM64_VDSO32, sm, new_vma);
+}
+#endif /* CONFIG_COMPAT_VDSO */
+
+>>>>>>> f0d6babc253a... UPSTREAM: arm64: compat: VDSO setup for compat layer
 /*
  * aarch32_vdso_pages:
  * 0 - kuser helpers
  * 1 - sigreturn code
+ * or (CONFIG_COMPAT_VDSO):
+ * 0 - kuser helpers
+ * 1 - vdso data
+ * 2 - vdso code
  */
 #define C_VECTORS	0
+#ifdef CONFIG_COMPAT_VDSO
+#define C_VVAR		1
+#define C_VDSO		2
+#define C_PAGES		(C_VDSO + 1)
+#else
 #define C_SIGPAGE	1
 #define C_PAGES		(C_SIGPAGE + 1)
+#endif /* CONFIG_COMPAT_VDSO */
 static struct page *aarch32_vdso_pages[C_PAGES] __ro_after_init;
-static const struct vm_special_mapping aarch32_vdso_spec[C_PAGES] = {
+static struct vm_special_mapping aarch32_vdso_spec[C_PAGES] = {
 	{
 		.name	= "[vectors]", /* ABI */
 		.pages	= &aarch32_vdso_pages[C_VECTORS],
 	},
+#ifdef CONFIG_COMPAT_VDSO
+	{
+		.name = "[vvar]",
+	},
+	{
+		.name = "[vdso]",
+		.mremap = aarch32_vdso_mremap,
+	},
+#else
 	{
 		.name	= "[sigpage]", /* ABI */
 		.pages	= &aarch32_vdso_pages[C_SIGPAGE],
 	},
+#endif /* CONFIG_COMPAT_VDSO */
 };
 >>>>>>> bc687b1bcb97... UPSTREAM: arm64: vdso: Refactor vDSO code
 
@@ -214,16 +262,61 @@ static int __init alloc_vectors_page(void)
 	memcpy((void *)vpage + 0x1000 - kuser_sz, __kuser_helper_start,
 		kuser_sz);
 
+<<<<<<< HEAD
 	/* sigreturn code */
 	memcpy((void *)vpage + AARCH32_KERN_SIGRET_CODE_OFFSET,
                __aarch32_sigret_code_start, sigret_sz);
+=======
+#ifdef CONFIG_COMPAT_VDSO
+static int __aarch32_alloc_vdso_pages(void)
+{
+	int ret;
+
+	vdso_lookup[ARM64_VDSO32].dm = &aarch32_vdso_spec[C_VVAR];
+	vdso_lookup[ARM64_VDSO32].cm = &aarch32_vdso_spec[C_VDSO];
+
+	ret = __vdso_init(ARM64_VDSO32);
+	if (ret)
+		return ret;
+
+	ret = aarch32_alloc_kuser_vdso_page();
+	if (ret) {
+		unsigned long c_vvar =
+			(unsigned long)page_to_virt(aarch32_vdso_pages[C_VVAR]);
+		unsigned long c_vdso =
+			(unsigned long)page_to_virt(aarch32_vdso_pages[C_VDSO]);
+
+		free_page(c_vvar);
+		free_page(c_vdso);
+	}
+
+	return ret;
+}
+#else
+static int __aarch32_alloc_vdso_pages(void)
+{
+	extern char __aarch32_sigret_code_start[], __aarch32_sigret_code_end[];
+	int sigret_sz = __aarch32_sigret_code_end - __aarch32_sigret_code_start;
+	unsigned long sigpage;
+	int ret;
+>>>>>>> f0d6babc253a... UPSTREAM: arm64: compat: VDSO setup for compat layer
 
 	flush_icache_range(vpage, vpage + PAGE_SIZE);
 	vectors_page[0] = virt_to_page(vpage);
 
 	return 0;
 }
+<<<<<<< HEAD
 arch_initcall(alloc_vectors_page);
+=======
+#endif /* CONFIG_COMPAT_VDSO */
+
+static int __init aarch32_alloc_vdso_pages(void)
+{
+	return __aarch32_alloc_vdso_pages();
+}
+arch_initcall(aarch32_alloc_vdso_pages);
+>>>>>>> f0d6babc253a... UPSTREAM: arm64: compat: VDSO setup for compat layer
 
 int aarch32_setup_vectors_page(struct linux_binprm *bprm, int uses_interp)
 {
@@ -233,17 +326,70 @@ int aarch32_setup_vectors_page(struct linux_binprm *bprm, int uses_interp)
 		.name	= "[vectors]",
 		.pages	= vectors_page,
 
+<<<<<<< HEAD
 	};
 	void *ret;
 
+=======
+#ifndef CONFIG_COMPAT_VDSO
+static int aarch32_sigreturn_setup(struct mm_struct *mm)
+{
+	unsigned long addr;
+	void *ret;
+
+	addr = get_unmapped_area(NULL, 0, PAGE_SIZE, 0, 0);
+	if (IS_ERR_VALUE(addr)) {
+		ret = ERR_PTR(addr);
+		goto out;
+	}
+
+	/*
+	 * VM_MAYWRITE is required to allow gdb to Copy-on-Write and
+	 * set breakpoints.
+	 */
+	ret = _install_special_mapping(mm, addr, PAGE_SIZE,
+				       VM_READ | VM_EXEC | VM_MAYREAD |
+				       VM_MAYWRITE | VM_MAYEXEC,
+				       &aarch32_vdso_spec[C_SIGPAGE]);
+	if (IS_ERR(ret))
+		goto out;
+
+	mm->context.vdso = (void *)addr;
+
+out:
+	return PTR_ERR_OR_ZERO(ret);
+}
+#endif /* !CONFIG_COMPAT_VDSO */
+
+int aarch32_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
+{
+	struct mm_struct *mm = current->mm;
+	int ret;
+
+>>>>>>> f0d6babc253a... UPSTREAM: arm64: compat: VDSO setup for compat layer
 	if (down_write_killable(&mm->mmap_sem))
 		return -EINTR;
 	current->mm->context.vdso = (void *)addr;
 
+<<<<<<< HEAD
 	/* Map vectors page at the high address. */
 	ret = _install_special_mapping(mm, addr, PAGE_SIZE,
 				       VM_READ|VM_EXEC|VM_MAYREAD|VM_MAYEXEC,
 				       &spec);
+=======
+	ret = aarch32_kuser_helpers_setup(mm);
+	if (ret)
+		goto out;
+
+#ifdef CONFIG_COMPAT_VDSO
+	ret = __setup_additional_pages(ARM64_VDSO32,
+				       mm,
+				       bprm,
+				       uses_interp);
+#else
+	ret = aarch32_sigreturn_setup(mm);
+#endif /* CONFIG_COMPAT_VDSO */
+>>>>>>> f0d6babc253a... UPSTREAM: arm64: compat: VDSO setup for compat layer
 
 	up_write(&mm->mmap_sem);
 

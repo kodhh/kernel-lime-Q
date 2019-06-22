@@ -51,6 +51,7 @@
  * change over time, possibly while we're accessing them.
  */
 
+<<<<<<< HEAD
 #ifdef CONFIG_PARAVIRT_CLOCK
 /*
  * This is the vCPU 0 pvclock page.  We only use pvclock from the vDSO
@@ -66,15 +67,28 @@ extern struct pvclock_vsyscall_time_info pvclock_page
 #ifdef CONFIG_PARAVIRT_CLOCK
 extern u8 pvclock_page[PAGE_SIZE]
 >>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
+=======
+#ifdef CONFIG_PARAVIRT_CLOCK
+/*
+ * This is the vCPU 0 pvclock page.  We only use pvclock from the vDSO
+ * if the hypervisor tells us that all vCPUs can get valid data from the
+ * vCPU 0 page.
+ */
+extern struct pvclock_vsyscall_time_info pvclock_page
+>>>>>>> d348db5c191b... UPSTREAM: x86/vdso: Give the [ph]vclock_page declarations real types
 	__attribute__((visibility("hidden")));
 #endif
 
 #ifdef CONFIG_HYPERV_TSCPAGE
 <<<<<<< HEAD
+<<<<<<< HEAD
 extern struct ms_hyperv_tsc_page hvclock_page
 =======
 extern u8 hvclock_page[PAGE_SIZE]
 >>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
+=======
+extern struct ms_hyperv_tsc_page hvclock_page
+>>>>>>> d348db5c191b... UPSTREAM: x86/vdso: Give the [ph]vclock_page declarations real types
 	__attribute__((visibility("hidden")));
 #endif
 
@@ -234,15 +248,14 @@ static u64 vread_pvclock(void)
 #endif
 
 #ifdef CONFIG_PARAVIRT_CLOCK
-static const struct pvclock_vsyscall_time_info *get_pvti0(void)
-{
-	return (const struct pvclock_vsyscall_time_info *)&pvclock_page;
-}
-
 static u64 vread_pvclock(void)
 {
+<<<<<<< HEAD
 	const struct pvclock_vcpu_time_info *pvti = &get_pvti0()->pvti;
 >>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
+=======
+	const struct pvclock_vcpu_time_info *pvti = &pvclock_page.pvti;
+>>>>>>> d348db5c191b... UPSTREAM: x86/vdso: Give the [ph]vclock_page declarations real types
 	u32 version;
 	u64 ret;
 
@@ -285,6 +298,7 @@ static u64 vread_pvclock(void)
 static u64 vread_hvclock(void)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	return hv_read_tsc_page(&hvclock_page);
 =======
 	const struct ms_hyperv_tsc_page *tsc_pg =
@@ -292,6 +306,9 @@ static u64 vread_hvclock(void)
 
 	return hv_read_tsc_page(tsc_pg);
 >>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
+=======
+	return hv_read_tsc_page(&hvclock_page);
+>>>>>>> d348db5c191b... UPSTREAM: x86/vdso: Give the [ph]vclock_page declarations real types
 }
 #endif
 

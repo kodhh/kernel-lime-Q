@@ -45,6 +45,9 @@ ifeq ($(CONFIG_CC_IS_CLANG), y)
   endif
 endif
 
+<<<<<<< HEAD
+>>>>>>> d98e9848ac37... UPSTREAM: arm64: vdso: Fix compilation with clang older than 8
+=======
 >>>>>>> d98e9848ac37... UPSTREAM: arm64: vdso: Fix compilation with clang older than 8
 # Disable gcov profiling for VDSO code
 GCOV_PROFILE := n

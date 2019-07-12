@@ -59,10 +59,14 @@ $(obj)/vdso.o : $(obj)/vdso.so
 # Link rule for the .so file, .lds has to be first
 $(obj)/vdso.so.dbg: $(src)/vdso.lds $(obj-vdso)
 <<<<<<< HEAD
+<<<<<<< HEAD
 	$(call if_changed,vdsold)
 =======
 	$(call if_changed,ld)
 >>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
+=======
+	$(call if_changed,vdsold_and_vdso_check)
+>>>>>>> cf1b4a8a6701... BACKPORT: arm64: vdso: fix flip/flop vdso build bug
 
 # Strip rule for the .so file
 $(obj)/%.so: OBJCOPYFLAGS := -S
@@ -91,6 +95,9 @@ quiet_cmd_vdsold = VDSOL   $@
 >>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
 quiet_cmd_vdsoas = VDSOA   $@
       cmd_vdsoas = $(CC) $(a_flags) -c -o $@ $<
+
+quiet_cmd_vdsold_and_vdso_check = LD      $@
+      cmd_vdsold_and_vdso_check = $(cmd_ld); $(cmd_vdso_check)
 
 # Install commands for the unstripped file
 quiet_cmd_vdso_install = INSTALL $@

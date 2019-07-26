@@ -57,11 +57,14 @@ GCOV_PROFILE := n
 # Shared build commands.
 #
 
+quiet_cmd_vdsold_and_vdso_check = LD      $@
+      cmd_vdsold_and_vdso_check = $(cmd_vdsold); $(cmd_vdso_check)
+
 quiet_cmd_vdsold = VDSO    $@
       cmd_vdsold = $(CC) $(c_flags) $(VDSO_LDFLAGS) \
                    -Wl,-T $(filter %.lds,$^) $(filter %.o,$^) -o $@
 
-quiet_cmd_vdsoas_o_S = AS       $@
+quiet_cmd_vdsoas_o_S = AS      $@
       cmd_vdsoas_o_S = $(CC) $(a_flags) -c -o $@ $<
 
 # Strip rule for the raw .so files
@@ -97,7 +100,11 @@ $(obj-vdso): KBUILD_AFLAGS := $(aflags-vdso) $(native-abi)
 $(obj)/vdso.lds: KBUILD_CPPFLAGS := $(ccflags-vdso) $(native-abi)
 
 $(obj)/vdso.so.dbg.raw: $(obj)/vdso.lds $(obj-vdso) FORCE
+<<<<<<< HEAD
 	$(call if_changed,vdsold)
+=======
+	$(call if_changed,vdsold_and_vdso_check)
+>>>>>>> cfeb91a76316... UPSTREAM: mips: vdso: Fix flip/flop vdso building bug
 
 $(obj)/vdso-image.c: $(obj)/vdso.so.dbg.raw $(obj)/vdso.so.raw \
                      $(obj)/genvdso FORCE
@@ -135,7 +142,11 @@ $(obj)/vdso-o32.lds: $(src)/vdso.lds.S FORCE
 	$(call if_changed_dep,cpp_lds_S)
 
 $(obj)/vdso-o32.so.dbg.raw: $(obj)/vdso-o32.lds $(obj-vdso-o32) FORCE
+<<<<<<< HEAD
 	$(call if_changed,vdsold)
+=======
+	$(call if_changed,vdsold_and_vdso_check)
+>>>>>>> cfeb91a76316... UPSTREAM: mips: vdso: Fix flip/flop vdso building bug
 
 $(obj)/vdso-o32-image.c: VDSO_NAME := o32
 $(obj)/vdso-o32-image.c: $(obj)/vdso-o32.so.dbg.raw $(obj)/vdso-o32.so.raw \
@@ -175,7 +186,11 @@ $(obj)/vdso-n32.lds: $(src)/vdso.lds.S FORCE
 	$(call if_changed_dep,cpp_lds_S)
 
 $(obj)/vdso-n32.so.dbg.raw: $(obj)/vdso-n32.lds $(obj-vdso-n32) FORCE
+<<<<<<< HEAD
 	$(call if_changed,vdsold)
+=======
+	$(call if_changed,vdsold_and_vdso_check)
+>>>>>>> cfeb91a76316... UPSTREAM: mips: vdso: Fix flip/flop vdso building bug
 
 $(obj)/vdso-n32-image.c: VDSO_NAME := n32
 $(obj)/vdso-n32-image.c: $(obj)/vdso-n32.so.dbg.raw $(obj)/vdso-n32.so.raw \

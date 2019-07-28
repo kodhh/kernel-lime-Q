@@ -103,9 +103,12 @@ __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
 	int ret;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (res == NULL)
 		goto fallback;
 
+=======
+>>>>>>> 7deebec2f35e... UPSTREAM: lib/vdso/32: Remove inconsistent NULL pointer checks
 	ret = __cvdso_clock_gettime(clock, &ts);
 =======
 	ret = __cvdso_clock_gettime_common(clock, &ts);
@@ -124,9 +127,6 @@ __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
 	res->tv_nsec = ts.tv_nsec;
 
 	return ret;
-
-fallback:
-	return clock_gettime_fallback(clock, (struct __kernel_timespec *)res);
 }
 
 static __maybe_unused int
@@ -197,10 +197,15 @@ int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (res) {
 		res->tv_sec = 0;
 		res->tv_nsec = ns;
 	}
+=======
+	res->tv_sec = 0;
+	res->tv_nsec = ns;
+>>>>>>> 7deebec2f35e... UPSTREAM: lib/vdso/32: Remove inconsistent NULL pointer checks
 
 =======
 	if (likely(res)) {
@@ -228,9 +233,12 @@ __cvdso_clock_getres_time32(clockid_t clock, struct old_timespec32 *res)
 	int ret;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (res == NULL)
 		goto fallback;
 
+=======
+>>>>>>> 7deebec2f35e... UPSTREAM: lib/vdso/32: Remove inconsistent NULL pointer checks
 	ret = __cvdso_clock_getres(clock, &ts);
 =======
 	ret = __cvdso_clock_getres_common(clock, &ts);
@@ -252,8 +260,5 @@ __cvdso_clock_getres_time32(clockid_t clock, struct old_timespec32 *res)
 		res->tv_nsec = ts.tv_nsec;
 	}
 	return ret;
-
-fallback:
-	return clock_getres_fallback(clock, (struct __kernel_timespec *)res);
 }
 #endif /* VDSO_HAS_CLOCK_GETRES */

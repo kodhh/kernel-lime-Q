@@ -85,12 +85,21 @@ __cvdso_clock_gettime_common(clockid_t clock, struct __kernel_timespec *ts)
 	}
 	return -1;
 }
+<<<<<<< HEAD
 
 static __maybe_unused int
 __cvdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
 {
 	int ret = __cvdso_clock_gettime_common(clock, ts);
 
+=======
+
+static __maybe_unused int
+__cvdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
+{
+	int ret = __cvdso_clock_gettime_common(clock, ts);
+
+>>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
 	if (unlikely(ret))
 		return clock_gettime_fallback(clock, ts);
 	return 0;
@@ -102,6 +111,7 @@ __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
 	struct __kernel_timespec ts;
 	int ret;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 	if (res == NULL)
@@ -125,6 +135,17 @@ __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
 	/* For ret == 0 */
 	res->tv_sec = ts.tv_sec;
 	res->tv_nsec = ts.tv_nsec;
+=======
+	ret = __cvdso_clock_gettime_common(clock, &ts);
+
+	if (unlikely(ret))
+		ret = clock_gettime_fallback(clock, &ts);
+
+	if (likely(!ret)) {
+		res->tv_sec = ts.tv_sec;
+		res->tv_nsec = ts.tv_nsec;
+	}
+>>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
 
 	return ret;
 }
@@ -170,6 +191,10 @@ static __maybe_unused
 int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
 {
 	const struct vdso_data *vd = __arch_get_vdso_data();
+<<<<<<< HEAD
+=======
+	u64 hrtimer_res;
+>>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
 	u32 msk;
 	u64 ns;
 
@@ -177,6 +202,7 @@ int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
 	if (unlikely((u32) clock >= MAX_CLOCKS))
 		return -1;
 
+	hrtimer_res = READ_ONCE(vd[CS_HRES_COARSE].hrtimer_res);
 	/*
 	 * Convert the clockid to a bitmask and use it to check which
 	 * clocks are handled in the VDSO directly.
@@ -215,12 +241,20 @@ int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
 >>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
 	return 0;
 }
+<<<<<<< HEAD
 
 static __maybe_unused
 int __cvdso_clock_getres(clockid_t clock, struct __kernel_timespec *res)
 {
 	int ret = __cvdso_clock_getres_common(clock, res);
 
+=======
+
+int __cvdso_clock_getres(clockid_t clock, struct __kernel_timespec *res)
+{
+	int ret = __cvdso_clock_getres_common(clock, res);
+
+>>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
 	if (unlikely(ret))
 		return clock_getres_fallback(clock, res);
 	return 0;
@@ -232,6 +266,7 @@ __cvdso_clock_getres_time32(clockid_t clock, struct old_timespec32 *res)
 	struct __kernel_timespec ts;
 	int ret;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 	if (res == NULL)
@@ -256,6 +291,13 @@ __cvdso_clock_getres_time32(clockid_t clock, struct old_timespec32 *res)
 >>>>>>> 28652a9b58fe... UPSTREAM: lib/vdso/32: Provide legacy syscall fallbacks
 
 	if (likely(res)) {
+=======
+	ret = __cvdso_clock_getres_common(clock, &ts);
+	if (unlikely(ret))
+		ret = clock_getres_fallback(clock, &ts);
+
+	if (likely(!ret)) {
+>>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
 		res->tv_sec = ts.tv_sec;
 		res->tv_nsec = ts.tv_nsec;
 	}

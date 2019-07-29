@@ -68,10 +68,14 @@ ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
   ifeq ($(CONFIG_CC_IS_CLANG), y)
     $(warning CROSS_COMPILE_COMPAT is clang, the compat vDSO will not be built)
 <<<<<<< HEAD
+<<<<<<< HEAD
   else ifeq ($(strip $(CROSS_COMPILE_COMPAT)),)
 =======
   else ifeq ($(CROSS_COMPILE_COMPAT),)
 >>>>>>> 70463c27165d... BACKPORT: arm64: vdso: Enable vDSO compat support
+=======
+  else ifeq ($(strip $(CROSS_COMPILE_COMPAT)),)
+>>>>>>> 449e8cda56d6... UPSTREAM: arm64: vdso: Fix Makefile regression
     $(warning CROSS_COMPILE_COMPAT not defined or empty, the compat vDSO will not be built)
   else ifeq ($(shell which $(CROSS_COMPILE_COMPAT)gcc 2> /dev/null),)
     $(error $(CROSS_COMPILE_COMPAT)gcc not found, check CROSS_COMPILE_COMPAT)

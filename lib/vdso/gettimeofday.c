@@ -140,10 +140,10 @@ __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
 		ret = clock_gettime_fallback(clock, &ts);
 #endif
 
-	if (likely(!ret)) {
-		res->tv_sec = ts.tv_sec;
-		res->tv_nsec = ts.tv_nsec;
-	}
+	/* For ret == 0 */
+	res->tv_sec = ts.tv_sec;
+	res->tv_nsec = ts.tv_nsec;
+
 	return ret;
 
 fallback:
@@ -275,7 +275,7 @@ __cvdso_clock_getres_time32(clockid_t clock, struct old_timespec32 *res)
 #endif
 >>>>>>> 28652a9b58fe... UPSTREAM: lib/vdso/32: Provide legacy syscall fallbacks
 
-	if (likely(!ret && res)) {
+	if (likely(res)) {
 		res->tv_sec = ts.tv_sec;
 		res->tv_nsec = ts.tv_nsec;
 	}

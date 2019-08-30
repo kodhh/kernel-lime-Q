@@ -146,6 +146,7 @@ __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
 		ret = clock_gettime_fallback(clock, &ts);
 #endif
 
+<<<<<<< HEAD
 	if (likely(!ret)) {
 		res->tv_sec = ts.tv_sec;
 		res->tv_nsec = ts.tv_nsec;
@@ -155,6 +156,12 @@ __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
 
 =======
 >>>>>>> 28652a9b58fe... UPSTREAM: lib/vdso/32: Provide legacy syscall fallbacks
+=======
+	/* For ret == 0 */
+	res->tv_sec = ts.tv_sec;
+	res->tv_nsec = ts.tv_nsec;
+
+>>>>>>> d6f9978202b2... UPSTREAM: lib/vdso: Remove checks on return value for 32 bit vDSO
 	return ret;
 }
 
@@ -306,6 +313,7 @@ __cvdso_clock_getres_time32(clockid_t clock, struct old_timespec32 *res)
 >>>>>>> 28652a9b58fe... UPSTREAM: lib/vdso/32: Provide legacy syscall fallbacks
 
 	if (likely(res)) {
+<<<<<<< HEAD
 =======
 	ret = __cvdso_clock_getres_common(clock, &ts);
 
@@ -323,6 +331,8 @@ __cvdso_clock_getres_time32(clockid_t clock, struct old_timespec32 *res)
 =======
 	if (likely(!ret && res)) {
 >>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
+=======
+>>>>>>> d6f9978202b2... UPSTREAM: lib/vdso: Remove checks on return value for 32 bit vDSO
 		res->tv_sec = ts.tv_sec;
 		res->tv_nsec = ts.tv_nsec;
 	}

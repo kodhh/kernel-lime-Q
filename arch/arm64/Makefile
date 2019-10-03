@@ -50,6 +50,7 @@ $(warning Detected assembler with broken .inst; disassembly will be unreliable)
 endif
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= -mno-implicit-float
 else
@@ -70,6 +71,14 @@ ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
     compat_vdso := -DCONFIG_COMPAT_VDSO=1
   endif
 >>>>>>> 449e8cda56d6... UPSTREAM: arm64: vdso: Fix Makefile regression
+=======
+COMPATCC ?= $(CROSS_COMPILE_COMPAT)gcc
+export COMPATCC
+
+ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
+  export CONFIG_COMPAT_VDSO := y
+  compat_vdso := -DCONFIG_COMPAT_VDSO=1
+>>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
 endif
 KBUILD_CFLAGS	+= $(lseinstr) $(brokengasinst)
 KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables

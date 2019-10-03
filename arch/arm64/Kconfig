@@ -103,6 +103,7 @@ config ARM64
 	select GENERIC_GETTIMEOFDAY
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	select GENERIC_COMPAT_VDSO if (!CPU_BIG_ENDIAN && COMPAT && "$(CROSS_COMPILE_COMPAT)" != "")
 >>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
 =======
@@ -110,6 +111,9 @@ config ARM64
 =======
 	select GENERIC_COMPAT_VDSO if (!CPU_BIG_ENDIAN && COMPAT)
 >>>>>>> 70463c27165d... BACKPORT: arm64: vdso: Enable vDSO compat support
+=======
+	select GENERIC_COMPAT_VDSO if (!CPU_BIG_ENDIAN && COMPAT && "$(CROSS_COMPILE_COMPAT)" != "")
+>>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
 	select HANDLE_DOMAIN_IRQ
 	select HARDIRQS_SW_RESEND
 	select HAVE_ACPI_APEI if (ACPI && EFI)

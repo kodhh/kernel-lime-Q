@@ -8,6 +8,7 @@
 ARCH_REL_TYPE_ABS := R_ARM_JUMP_SLOT|R_ARM_GLOB_DAT|R_ARM_ABS32
 include $(srctree)/lib/vdso/Makefile
 
+<<<<<<< HEAD
 # Same as cc-*option, but using CC_COMPAT instead of CC
 ifeq ($(CONFIG_CC_IS_CLANG), y)
 <<<<<<< HEAD
@@ -19,6 +20,9 @@ else
 CC_COMPAT ?= $(CROSS_COMPILE_COMPAT)gcc
 endif
 
+=======
+# Same as cc-*option, but using COMPATCC instead of CC
+>>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
 cc32-option = $(call try-run,\
         $(CC_COMPAT) $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
 cc32-disable-warning = $(call try-run,\

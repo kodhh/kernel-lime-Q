@@ -51,6 +51,7 @@ endif
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= -mno-implicit-float
 else
@@ -72,7 +73,13 @@ ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
   endif
 >>>>>>> 449e8cda56d6... UPSTREAM: arm64: vdso: Fix Makefile regression
 =======
+=======
+ifeq ($(CONFIG_CC_IS_CLANG), y)
+COMPATCC ?= $(CC) --target=$(notdir $(CROSS_COMPILE_COMPAT:%-=%))
+else
+>>>>>>> 16df258295af... UPSTREAM: arm64: Default to building compat vDSO with clang when CONFIG_CC_IS_CLANG
 COMPATCC ?= $(CROSS_COMPILE_COMPAT)gcc
+endif
 export COMPATCC
 
 ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)

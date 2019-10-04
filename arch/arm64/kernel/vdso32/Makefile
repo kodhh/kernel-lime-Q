@@ -22,7 +22,16 @@ endif
 
 =======
 # Same as cc-*option, but using COMPATCC instead of CC
+<<<<<<< HEAD
 >>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
+=======
+ifeq ($(CONFIG_CC_IS_CLANG), y)
+COMPATCC ?= $(CC) --target=$(notdir $(CROSS_COMPILE_COMPAT:%-=%))
+else
+COMPATCC ?= $(CROSS_COMPILE_COMPAT)gcc
+endif
+
+>>>>>>> 4459f07e1330... UPSTREAM: arm64: vdso32: Move definition of COMPATCC into vdso32/Makefile
 cc32-option = $(call try-run,\
         $(CC_COMPAT) $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
 cc32-disable-warning = $(call try-run,\

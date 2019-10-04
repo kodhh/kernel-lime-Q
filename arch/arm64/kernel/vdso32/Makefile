@@ -9,6 +9,7 @@ ARCH_REL_TYPE_ABS := R_ARM_JUMP_SLOT|R_ARM_GLOB_DAT|R_ARM_ABS32
 include $(srctree)/lib/vdso/Makefile
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Same as cc-*option, but using CC_COMPAT instead of CC
 ifeq ($(CONFIG_CC_IS_CLANG), y)
 <<<<<<< HEAD
@@ -25,10 +26,13 @@ endif
 <<<<<<< HEAD
 >>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
 =======
+=======
+# Same as cc-*option, but using CC_COMPAT instead of CC
+>>>>>>> ddf5fc45d31f... UPSTREAM: arm64: vdso32: Rename COMPATCC to CC_COMPAT
 ifeq ($(CONFIG_CC_IS_CLANG), y)
-COMPATCC ?= $(CC)
+CC_COMPAT ?= $(CC)
 else
-COMPATCC ?= $(CROSS_COMPILE_COMPAT)gcc
+CC_COMPAT ?= $(CROSS_COMPILE_COMPAT)gcc
 endif
 
 >>>>>>> 4459f07e1330... UPSTREAM: arm64: vdso32: Move definition of COMPATCC into vdso32/Makefile
@@ -37,6 +41,7 @@ cc32-option = $(call try-run,\
 cc32-disable-warning = $(call try-run,\
 	$(CC_COMPAT) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
 cc32-ldoption = $(call try-run,\
+<<<<<<< HEAD
 <<<<<<< HEAD
         $(COMPATCC) $(1) -nostdlib -x c /dev/null -o "$$TMP",$(1),$(2))
 <<<<<<< HEAD
@@ -49,6 +54,11 @@ cc32-as-instr = $(call try-run,\
 cc32-as-instr = $(call try-run,\
 	printf "%b\n" "$(1)" | $(COMPATCC) $(VDSO_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
 >>>>>>> 649fdbbf0dd1... UPSTREAM: arm64: vdso32: Detect binutils support for dmb ishld
+=======
+        $(CC_COMPAT) $(1) -nostdlib -x c /dev/null -o "$$TMP",$(1),$(2))
+cc32-as-instr = $(call try-run,\
+	printf "%b\n" "$(1)" | $(CC_COMPAT) $(VDSO_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
+>>>>>>> ddf5fc45d31f... UPSTREAM: arm64: vdso32: Rename COMPATCC to CC_COMPAT
 
 # We cannot use the global flags to compile the vDSO files, the main reason
 # being that the 32-bit compiler may be older than the main (64-bit) compiler
@@ -59,15 +69,20 @@ cc32-as-instr = $(call try-run,\
 
 # KBUILD_CPPFLAGS and NOSTDINC_FLAGS from top-level Makefile
 <<<<<<< HEAD
+<<<<<<< HEAD
 VDSO_CPPFLAGS := -D__KERNEL__ -nostdinc -isystem $(shell $(CC_COMPAT) -print-file-name=include)
 =======
 VDSO_CPPFLAGS := -D__KERNEL__ -nostdinc -isystem $(shell $(COMPATCC) -print-file-name=include)
 >>>>>>> 0edaa642358b... UPSTREAM: arm64: vdso32: Don't use KBUILD_CPPFLAGS unconditionally
+=======
+VDSO_CPPFLAGS := -D__KERNEL__ -nostdinc -isystem $(shell $(CC_COMPAT) -print-file-name=include)
+>>>>>>> ddf5fc45d31f... UPSTREAM: arm64: vdso32: Rename COMPATCC to CC_COMPAT
 VDSO_CPPFLAGS += $(LINUXINCLUDE)
 
 # Common C and assembly flags
 # From top-level Makefile
 VDSO_CAFLAGS := $(VDSO_CPPFLAGS)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -78,6 +93,9 @@ endif
 >>>>>>> ddf5fc45d31f... UPSTREAM: arm64: vdso32: Rename COMPATCC to CC_COMPAT
 =======
 ifneq ($(shell $(COMPATCC) --version 2>&1 | head -n 1 | grep clang),)
+=======
+ifneq ($(shell $(CC_COMPAT) --version 2>&1 | head -n 1 | grep clang),)
+>>>>>>> ddf5fc45d31f... UPSTREAM: arm64: vdso32: Rename COMPATCC to CC_COMPAT
 VDSO_CAFLAGS += --target=$(notdir $(CROSS_COMPILE_COMPAT:%-=%))
 endif
 
@@ -212,6 +230,7 @@ quiet_cmd_vdsold_and_vdso_check = LD32    $@
 
 quiet_cmd_vdsold = LD32    $@
 <<<<<<< HEAD
+<<<<<<< HEAD
       cmd_vdsold = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_LDFLAGS) \
                    -Wl,-T $(filter %.lds,$^) $(filter %.o,$^) -o $@
 quiet_cmd_vdsocc = CC32    $@
@@ -222,14 +241,21 @@ quiet_cmd_vdsoas = AS32    $@
       cmd_vdsoas = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_AFLAGS) -c -o $@ $<
 =======
       cmd_vdsold = $(COMPATCC) -Wp,-MD,$(depfile) $(VDSO_LDFLAGS) \
+=======
+      cmd_vdsold = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_LDFLAGS) \
+>>>>>>> ddf5fc45d31f... UPSTREAM: arm64: vdso32: Rename COMPATCC to CC_COMPAT
                    -Wl,-T $(filter %.lds,$^) $(filter %.o,$^) -o $@
 quiet_cmd_vdsocc = CC32    $@
-      cmd_vdsocc = $(COMPATCC) -Wp,-MD,$(depfile) $(VDSO_CFLAGS) -c -o $@ $<
+      cmd_vdsocc = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_CFLAGS) -c -o $@ $<
 quiet_cmd_vdsocc_gettimeofday = CC32    $@
-      cmd_vdsocc_gettimeofday = $(COMPATCC) -Wp,-MD,$(depfile) $(VDSO_CFLAGS) $(VDSO_CFLAGS_gettimeofday_o) -c -o $@ $<
+      cmd_vdsocc_gettimeofday = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_CFLAGS) $(VDSO_CFLAGS_gettimeofday_o) -c -o $@ $<
 quiet_cmd_vdsoas = AS32    $@
+<<<<<<< HEAD
       cmd_vdsoas = $(COMPATCC) -Wp,-MD,$(depfile) $(VDSO_AFLAGS) -c -o $@ $<
 >>>>>>> b8f06ffcf19c... BACKPORT: arm64: vdso: Cleanup Makefiles
+=======
+      cmd_vdsoas = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_AFLAGS) -c -o $@ $<
+>>>>>>> ddf5fc45d31f... UPSTREAM: arm64: vdso32: Rename COMPATCC to CC_COMPAT
 
 quiet_cmd_vdsomunge = MUNGE   $@
       cmd_vdsomunge = $(obj)/$(munge) $< $@

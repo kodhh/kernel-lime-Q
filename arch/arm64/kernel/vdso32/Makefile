@@ -58,7 +58,11 @@ cc32-as-instr = $(call try-run,\
 # As a result we set our own flags here.
 
 # KBUILD_CPPFLAGS and NOSTDINC_FLAGS from top-level Makefile
+<<<<<<< HEAD
 VDSO_CPPFLAGS := -D__KERNEL__ -nostdinc -isystem $(shell $(CC_COMPAT) -print-file-name=include)
+=======
+VDSO_CPPFLAGS := -D__KERNEL__ -nostdinc -isystem $(shell $(COMPATCC) -print-file-name=include)
+>>>>>>> 0edaa642358b... UPSTREAM: arm64: vdso32: Don't use KBUILD_CPPFLAGS unconditionally
 VDSO_CPPFLAGS += $(LINUXINCLUDE)
 
 # Common C and assembly flags

@@ -52,6 +52,7 @@ endif
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= -mno-implicit-float
 else
@@ -82,6 +83,8 @@ COMPATCC ?= $(CROSS_COMPILE_COMPAT)gcc
 endif
 export COMPATCC
 
+=======
+>>>>>>> 4459f07e1330... UPSTREAM: arm64: vdso32: Move definition of COMPATCC into vdso32/Makefile
 ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
   export CONFIG_COMPAT_VDSO := y
   compat_vdso := -DCONFIG_COMPAT_VDSO=1

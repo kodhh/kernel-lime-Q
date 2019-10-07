@@ -26,7 +26,7 @@ endif
 >>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
 =======
 ifeq ($(CONFIG_CC_IS_CLANG), y)
-COMPATCC ?= $(CC) --target=$(notdir $(CROSS_COMPILE_COMPAT:%-=%))
+COMPATCC ?= $(CC)
 else
 COMPATCC ?= $(CROSS_COMPILE_COMPAT)gcc
 endif
@@ -69,12 +69,19 @@ VDSO_CPPFLAGS += $(LINUXINCLUDE)
 # From top-level Makefile
 VDSO_CAFLAGS := $(VDSO_CPPFLAGS)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 ifneq ($(shell $(CC_COMPAT) --version 2>&1 | head -n 1 | grep clang),)
 VDSO_CAFLAGS += --target=$(notdir $(CROSS_COMPILE_COMPAT:%-=%))
 endif
 
 >>>>>>> ddf5fc45d31f... UPSTREAM: arm64: vdso32: Rename COMPATCC to CC_COMPAT
+=======
+ifneq ($(shell $(COMPATCC) --version 2>&1 | head -n 1 | grep clang),)
+VDSO_CAFLAGS += --target=$(notdir $(CROSS_COMPILE_COMPAT:%-=%))
+endif
+
+>>>>>>> aa2a88f4a075... UPSTREAM: arm64: vdso32: Pass '--target' option to clang via VDSO_CAFLAGS
 VDSO_CAFLAGS += $(call cc32-option,-fno-PIE)
 ifdef CONFIG_DEBUG_INFO
 VDSO_CAFLAGS += -g

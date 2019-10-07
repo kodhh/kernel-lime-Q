@@ -58,6 +58,7 @@ endif
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= -mno-implicit-float
 else
@@ -128,6 +129,8 @@ ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
 >>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
 endif
 
+=======
+>>>>>>> f5a2c8a44fdf... BACKPORT: arm64: Kconfig: Make CONFIG_COMPAT_VDSO a proper Kconfig option
 KBUILD_CFLAGS	+= -mgeneral-regs-only $(lseinstr) $(brokengasinst) $(compat_vdso)
 >>>>>>> 70463c27165d... BACKPORT: arm64: vdso: Enable vDSO compat support
 KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables

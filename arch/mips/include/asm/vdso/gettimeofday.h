@@ -28,12 +28,15 @@
 
 #define __VDSO_USE_SYSCALL		ULLONG_MAX
 
+<<<<<<< HEAD
 =======
 >>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 =======
 #define VDSO_HAS_CLOCK_GETRES		1
 
 >>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
+=======
+>>>>>>> d137d9db09fa... UPSTREAM: mips: vdso: Fix __arch_get_hw_counter()
 #ifdef CONFIG_MIPS_CLOCK_VSYSCALL
 
 static __always_inline long gettimeofday_fallback(
@@ -225,10 +228,14 @@ static __always_inline u64 __arch_get_hw_counter(s32 clock_mode)
 #endif
 	default:
 <<<<<<< HEAD
+<<<<<<< HEAD
 		cycle_now = __VDSO_USE_SYSCALL;
 =======
 		cycle_now = 0;
 >>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
+=======
+		cycle_now = __VDSO_USE_SYSCALL;
+>>>>>>> d137d9db09fa... UPSTREAM: mips: vdso: Fix __arch_get_hw_counter()
 		break;
 	}
 

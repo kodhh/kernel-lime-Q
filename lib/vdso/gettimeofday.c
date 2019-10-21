@@ -232,6 +232,7 @@ int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if (res) {
 		res->tv_sec = 0;
 		res->tv_nsec = ns;
@@ -242,10 +243,15 @@ int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
 >>>>>>> 7deebec2f35e... UPSTREAM: lib/vdso/32: Remove inconsistent NULL pointer checks
 
 =======
+=======
+>>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
 	if (likely(res)) {
 		res->tv_sec = 0;
 		res->tv_nsec = ns;
 	}
+<<<<<<< HEAD
+>>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
+=======
 >>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
 	return 0;
 }
@@ -310,8 +316,12 @@ __cvdso_clock_getres_time32(clockid_t clock, struct old_timespec32 *res)
 		ret = clock_getres_fallback(clock, &ts);
 #endif
 
+<<<<<<< HEAD
 	if (likely(!ret)) {
 >>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
+=======
+	if (likely(!ret && res)) {
+>>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
 		res->tv_sec = ts.tv_sec;
 		res->tv_nsec = ts.tv_nsec;
 	}

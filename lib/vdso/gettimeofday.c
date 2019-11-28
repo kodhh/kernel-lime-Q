@@ -264,6 +264,7 @@ int __cvdso_clock_getres(clockid_t clock, struct __kernel_timespec *res)
 
 =======
 
+static __maybe_unused
 int __cvdso_clock_getres(clockid_t clock, struct __kernel_timespec *res)
 {
 	int ret = __cvdso_clock_getres_common(clock, res);

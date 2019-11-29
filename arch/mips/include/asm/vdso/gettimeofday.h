@@ -29,6 +29,7 @@
 #define __VDSO_USE_SYSCALL		ULLONG_MAX
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 =======
@@ -39,6 +40,8 @@
 >>>>>>> d137d9db09fa... UPSTREAM: mips: vdso: Fix __arch_get_hw_counter()
 #ifdef CONFIG_MIPS_CLOCK_VSYSCALL
 
+=======
+>>>>>>> cf84512fe7aa... UPSTREAM: mips: Fix gettimeofday() in the vdso library
 static __always_inline long gettimeofday_fallback(
 				struct __kernel_old_timeval *_tv,
 				struct timezone *_tz)
@@ -58,17 +61,6 @@ static __always_inline long gettimeofday_fallback(
 
 	return error ? -ret : ret;
 }
-
-#else
-
-static __always_inline long gettimeofday_fallback(
-				struct __kernel_old_timeval *_tv,
-				struct timezone *_tz)
-{
-	return -1;
-}
-
-#endif
 
 static __always_inline long clock_gettime_fallback(
 					clockid_t _clkid,

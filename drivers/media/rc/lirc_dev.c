@@ -29,8 +29,7 @@
 #include <media/lirc.h>
 #include <media/lirc_dev.h>
 
-#define NOPLUG		-1
-#define LOGHEAD		"lirc_dev (%s[%d]): "
+#define LIRCBUF_SIZE	1024
 
 static dev_t lirc_base_dev;
 

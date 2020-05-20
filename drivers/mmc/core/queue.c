@@ -121,6 +121,7 @@ static enum blk_eh_timer_return mmc_cqe_timed_out(struct request *req)
 		mmc_log_string(host,
 				"Timeout even before req reaching LDD,completing the req. Active reqs: %d Req: %p Tag: %d\n",
 				mmc_cqe_qcnt(mq), req, req->tag);
+
 		/* The request has gone already */
 		return BLK_EH_DONE;
 	default:

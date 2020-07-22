@@ -437,9 +437,23 @@ static int __maybe_unused xhci_plat_runtime_idle(struct device *dev)
 	 * before suspend we have to call pm_runtime_autosuspend() manually.
 	 */
 
+<<<<<<< HEAD
 	pm_runtime_mark_last_busy(dev);
 	pm_runtime_autosuspend(dev);
 	return -EBUSY;
+=======
+static int __maybe_unused xhci_plat_resume(struct device *dev)
+{
+	struct usb_hcd	*hcd = dev_get_drvdata(dev);
+	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
+	int ret;
+
+	ret = xhci_priv_resume_quirk(hcd);
+	if (ret)
+		return ret;
+
+	return xhci_resume(xhci, 0);
+>>>>>>> 035c6e1b47c3... Merge 4.19.134 into android-4.19-q
 }
 
 static int __maybe_unused xhci_plat_runtime_suspend(struct device *dev)

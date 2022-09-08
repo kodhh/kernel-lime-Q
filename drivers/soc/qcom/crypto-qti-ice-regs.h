@@ -1,10 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0-only */
 /*
  * Copyright (c) 2020, The Linux Foundation. All rights reserved.
-<<<<<<< HEAD
- * Copyright (C) 2020 XiaoMi, Inc.
-=======
->>>>>>> 3f4b63dc87b8c14c92d2dfd7912cebf038ddf404
  */
 
 #ifndef _CRYPTO_INLINE_CRYPTO_ENGINE_REGS_H_

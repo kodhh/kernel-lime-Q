@@ -1,11 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
-<<<<<<< HEAD
- * Copyright (c) 2012-2020, The Linux Foundation. All rights reserved.
- * Copyright (C) 2020 XiaoMi, Inc.
-=======
  * Copyright (c) 2012-2021, The Linux Foundation. All rights reserved.
->>>>>>> ffe4199a97d766aad3f9dc280bd7e4c5a45b6a0a
  */
 #include <linux/dma-buf.h>
 #include <linux/dma-mapping.h>

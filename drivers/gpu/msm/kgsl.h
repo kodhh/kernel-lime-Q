@@ -1,11 +1,7 @@
 /* SPDX-License-Identifier: GPL-2.0-only */
 /*
-<<<<<<< HEAD
- * Copyright (c) 2008-2020, The Linux Foundation. All rights reserved.
- * Copyright (C) 2020 XiaoMi, Inc.
-=======
  * Copyright (c) 2008-2021, The Linux Foundation. All rights reserved.
->>>>>>> 6add533d84636396d66ebe7aff0c3cf6663c0756
+ * Copyright (C) 2020 XiaoMi, Inc.
  */
 #ifndef __KGSL_H
 #define __KGSL_H

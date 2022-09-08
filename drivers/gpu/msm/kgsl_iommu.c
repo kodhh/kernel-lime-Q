@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
+<<<<<<< HEAD
  * Copyright (c) 2011-2020, The Linux Foundation. All rights reserved.
 <<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
 =======
 >>>>>>> 3f4b63dc87b8c14c92d2dfd7912cebf038ddf404
+=======
+ * Copyright (c) 2011-2021, The Linux Foundation. All rights reserved.
+>>>>>>> 6add533d84636396d66ebe7aff0c3cf6663c0756
  */
 
 #include <linux/compat.h>
@@ -2479,6 +2483,11 @@ static int get_gpuaddr(struct kgsl_pagetable *pagetable,
 		return -ENOMEM;
 	}
 
+	/*
+	 * This path is only called in a non-SVM path with locks so we can be
+	 * sure we aren't racing with anybody so we don't need to worry about
+	 * taking the lock
+	 */
 	ret = _insert_gpuaddr(pagetable, addr, size);
 	spin_unlock(&pagetable->lock);
 

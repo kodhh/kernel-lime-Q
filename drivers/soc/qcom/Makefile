@@ -102,4 +102,7 @@ obj-$(CONFIG_QTI_L2_REUSE) += l2_reuse.o
 obj-$(CONFIG_ICNSS2) += icnss2/
 obj-$(CONFIG_QTI_HW_KEY_MANAGER) += hwkm_qti.o
 hwkm_qti-y += hwkm.o crypto-qti-hwkm.o
+<<<<<<< HEAD
 obj-$(CONFIG_SERIAL_NUM) += serial_num.o
+=======
+>>>>>>> 3f4b63dc87b8c14c92d2dfd7912cebf038ddf404

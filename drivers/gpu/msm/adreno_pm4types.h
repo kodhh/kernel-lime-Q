@@ -1,7 +1,10 @@
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
  * Copyright (c) 2002,2007-2018,2020 The Linux Foundation. All rights reserved.
+<<<<<<< HEAD
  * Copyright (C) 2020 XiaoMi, Inc.
+=======
+>>>>>>> 3f4b63dc87b8c14c92d2dfd7912cebf038ddf404
  */
 #ifndef __ADRENO_PM4TYPES_H
 #define __ADRENO_PM4TYPES_H

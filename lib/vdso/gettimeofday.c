@@ -99,44 +99,25 @@ __cvdso_clock_gettime_common(clockid_t clock, struct __kernel_timespec *ts)
 
 	return do_hres(vd, clock, ts);
 }
-<<<<<<< HEAD
 
 static __maybe_unused int
 __cvdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
 {
 	int ret = __cvdso_clock_gettime_common(clock, ts);
 
-=======
-
-static __maybe_unused int
-__cvdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts)
-{
-	int ret = __cvdso_clock_gettime_common(clock, ts);
-
->>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
 	if (unlikely(ret))
 		return clock_gettime_fallback(clock, ts);
 	return 0;
 }
 
+#ifdef BUILD_VDSO32
 static __maybe_unused int
 __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
 {
 	struct __kernel_timespec ts;
 	int ret;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	if (res == NULL)
-		goto fallback;
-
-=======
->>>>>>> 7deebec2f35e... UPSTREAM: lib/vdso/32: Remove inconsistent NULL pointer checks
-	ret = __cvdso_clock_gettime(clock, &ts);
-=======
 	ret = __cvdso_clock_gettime_common(clock, &ts);
->>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
 
 #ifdef VDSO_HAS_32BIT_FALLBACK
 	if (unlikely(ret))
@@ -149,35 +130,10 @@ __cvdso_clock_gettime32(clockid_t clock, struct old_timespec32 *res)
 	/* For ret == 0 */
 	res->tv_sec = ts.tv_sec;
 	res->tv_nsec = ts.tv_nsec;
-=======
-	ret = __cvdso_clock_gettime_common(clock, &ts);
 
-#ifdef VDSO_HAS_32BIT_FALLBACK
-	if (unlikely(ret))
-		return clock_gettime32_fallback(clock, res);
-#else
-	if (unlikely(ret))
-		ret = clock_gettime_fallback(clock, &ts);
-#endif
-
-<<<<<<< HEAD
-	if (likely(!ret)) {
-		res->tv_sec = ts.tv_sec;
-		res->tv_nsec = ts.tv_nsec;
-	}
-<<<<<<< HEAD
->>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
-
-=======
->>>>>>> 28652a9b58fe... UPSTREAM: lib/vdso/32: Provide legacy syscall fallbacks
-=======
-	/* For ret == 0 */
-	res->tv_sec = ts.tv_sec;
-	res->tv_nsec = ts.tv_nsec;
-
->>>>>>> d6f9978202b2... UPSTREAM: lib/vdso: Remove checks on return value for 32 bit vDSO
 	return ret;
 }
+#endif /* BUILD_VDSO32 */
 
 static __maybe_unused int
 __cvdso_gettimeofday(struct __kernel_old_timeval *tv, struct timezone *tz)
@@ -220,10 +176,6 @@ static __maybe_unused
 int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
 {
 	const struct vdso_data *vd = __arch_get_vdso_data();
-<<<<<<< HEAD
-=======
-	u64 hrtimer_res;
->>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
 	u32 msk;
 	u64 ns;
 
@@ -231,7 +183,6 @@ int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
 	if (unlikely((u32) clock >= MAX_CLOCKS))
 		return -1;
 
-	hrtimer_res = READ_ONCE(vd[CS_HRES_COARSE].hrtimer_res);
 	/*
 	 * Convert the clockid to a bitmask and use it to check which
 	 * clocks are handled in the VDSO directly.
@@ -251,105 +202,48 @@ int __cvdso_clock_getres_common(clockid_t clock, struct __kernel_timespec *res)
 		return -1;
 	}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	if (res) {
-		res->tv_sec = 0;
-		res->tv_nsec = ns;
-	}
-=======
-	res->tv_sec = 0;
-	res->tv_nsec = ns;
->>>>>>> 7deebec2f35e... UPSTREAM: lib/vdso/32: Remove inconsistent NULL pointer checks
-
-=======
-=======
->>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
 	if (likely(res)) {
 		res->tv_sec = 0;
 		res->tv_nsec = ns;
 	}
-<<<<<<< HEAD
->>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
-=======
->>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
 	return 0;
 }
-<<<<<<< HEAD
 
 static __maybe_unused
 int __cvdso_clock_getres(clockid_t clock, struct __kernel_timespec *res)
 {
 	int ret = __cvdso_clock_getres_common(clock, res);
 
-=======
-
-static __maybe_unused
-int __cvdso_clock_getres(clockid_t clock, struct __kernel_timespec *res)
-{
-	int ret = __cvdso_clock_getres_common(clock, res);
-
->>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
 	if (unlikely(ret))
 		return clock_getres_fallback(clock, res);
 	return 0;
 }
 
+#ifdef BUILD_VDSO32
 static __maybe_unused int
 __cvdso_clock_getres_time32(clockid_t clock, struct old_timespec32 *res)
 {
 	struct __kernel_timespec ts;
 	int ret;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	if (res == NULL)
-		goto fallback;
-
-=======
->>>>>>> 7deebec2f35e... UPSTREAM: lib/vdso/32: Remove inconsistent NULL pointer checks
-	ret = __cvdso_clock_getres(clock, &ts);
-=======
 	ret = __cvdso_clock_getres_common(clock, &ts);
 
 #ifdef VDSO_HAS_32BIT_FALLBACK
 	if (unlikely(ret))
 		return clock_getres32_fallback(clock, res);
 #else
-	if (unlikely(ret))
+	if (unlikely(ret)) {
 		ret = clock_getres_fallback(clock, &ts);
-<<<<<<< HEAD
->>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
-=======
+		if (unlikely(ret))
+			return ret;
+	}
 #endif
->>>>>>> 28652a9b58fe... UPSTREAM: lib/vdso/32: Provide legacy syscall fallbacks
 
 	if (likely(res)) {
-<<<<<<< HEAD
-=======
-	ret = __cvdso_clock_getres_common(clock, &ts);
-
-#ifdef VDSO_HAS_32BIT_FALLBACK
-	if (unlikely(ret))
-		return clock_getres32_fallback(clock, res);
-#else
-	if (unlikely(ret))
-		ret = clock_getres_fallback(clock, &ts);
-#endif
-
-<<<<<<< HEAD
-	if (likely(!ret)) {
->>>>>>> e008bb09beb5... UPSTREAM: lib/vdso: Move fallback invocation to the callers
-=======
-	if (likely(!ret && res)) {
->>>>>>> ca48e5d84cae... UPSTREAM: lib/vdso: Make clock_getres() POSIX compliant again
-=======
->>>>>>> d6f9978202b2... UPSTREAM: lib/vdso: Remove checks on return value for 32 bit vDSO
 		res->tv_sec = ts.tv_sec;
 		res->tv_nsec = ts.tv_nsec;
 	}
 	return ret;
 }
+#endif /* BUILD_VDSO32 */
 #endif /* VDSO_HAS_CLOCK_GETRES */

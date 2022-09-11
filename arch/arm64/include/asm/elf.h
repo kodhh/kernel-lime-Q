@@ -209,15 +209,7 @@ typedef compat_elf_greg_t		compat_elf_gregset_t[COMPAT_ELF_NGREG];
 ({									\
 	set_thread_flag(TIF_32BIT);					\
  })
-<<<<<<< HEAD
-<<<<<<< HEAD
 #ifdef CONFIG_COMPAT_VDSO
-=======
-#ifdef CONFIG_GENERIC_COMPAT_VDSO
->>>>>>> 8d5e92df4d70... UPSTREAM: arm64: elf: VDSO code page discovery
-=======
-#ifdef CONFIG_COMPAT_VDSO
->>>>>>> e64f4a8cb727... UPSTREAM: arm64: vdso: Fix population of AT_SYSINFO_EHDR for compat vdso
 #define COMPAT_ARCH_DLINFO						\
 do {									\
 	/*								\
@@ -231,19 +223,11 @@ do {									\
 } while (0)
 #else
 #define COMPAT_ARCH_DLINFO
-<<<<<<< HEAD
-<<<<<<< HEAD
-extern int aarch32_setup_vectors_page(struct linux_binprm *bprm,
-				      int uses_interp);
-=======
-=======
->>>>>>> 8d5e92df4d70... UPSTREAM: arm64: elf: VDSO code page discovery
 #endif
 extern int aarch32_setup_additional_pages(struct linux_binprm *bprm,
 					  int uses_interp);
->>>>>>> 8d5e92df4d70... UPSTREAM: arm64: elf: VDSO code page discovery
 #define compat_arch_setup_additional_pages \
-					aarch32_setup_vectors_page
+					aarch32_setup_additional_pages
 
 #endif /* CONFIG_COMPAT */
 

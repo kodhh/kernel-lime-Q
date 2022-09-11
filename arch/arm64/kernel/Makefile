@@ -27,17 +27,12 @@ OBJCOPYFLAGS := --prefix-symbols=__efistub_
 $(obj)/%.stub.o: $(obj)/%.o FORCE
 	$(call if_changed,objcopy)
 
-<<<<<<< HEAD
-arm64-obj-$(CONFIG_COMPAT)		+= sys32.o kuser32.o signal32.o 	\
-					   sys_compat.o
-=======
 arm64-obj-$(CONFIG_COMPAT)		+= sys32.o signal32.o		 	\
 					   sys_compat.o
 ifneq ($(CONFIG_COMPAT_VDSO), y)
 arm64-obj-$(CONFIG_COMPAT)		+= sigreturn32.o
 endif
 arm64-obj-$(CONFIG_KUSER_HELPERS)	+= kuser32.o
->>>>>>> 70463c27165d... BACKPORT: arm64: vdso: Enable vDSO compat support
 arm64-obj-$(CONFIG_FUNCTION_TRACER)	+= ftrace.o entry-ftrace.o
 arm64-obj-$(CONFIG_MODULES)		+= arm64ksyms.o module.o
 arm64-obj-$(CONFIG_ARM64_MODULE_PLTS)	+= module-plts.o

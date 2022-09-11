@@ -6,36 +6,27 @@
 # Heavily based on the vDSO Makefiles for other archs.
 #
 
-obj-vdso := gettimeofday.o note.o sigreturn.o
+# Absolute relocation type $(ARCH_REL_TYPE_ABS) needs to be defined before
+# the inclusion of generic Makefile.
+ARCH_REL_TYPE_ABS := R_AARCH64_JUMP_SLOT|R_AARCH64_GLOB_DAT|R_AARCH64_ABS64
+include $(srctree)/lib/vdso/Makefile
+
+obj-vdso := vgettimeofday.o note.o sigreturn.o
 
 # Build rules
 targets := $(obj-vdso) vdso.so vdso.so.dbg
 obj-vdso := $(addprefix $(obj)/, $(obj-vdso))
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 --hash-style=sysv \
 		--build-id -n -T
-=======
-ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 \
-		$(call ld-option, --hash-style=sysv) -n -T
->>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
-=======
-ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 --hash-style=sysv \
-		--build-id -n -T
->>>>>>> 5fecd944e2f0... BACKPORT: arm64: vdso: Explicitly add build-id option
 ccflags-y += $(DISABLE_LTO)
 
-<<<<<<< HEAD
-=======
-CFLAGS_REMOVE_vgettimeofday.o += $(CC_FLAGS_SCS)
-
-ccflags-y := -fno-common -fno-builtin -fno-stack-protector
+ccflags-y := -fno-common -fno-builtin -fno-stack-protector -ffixed-x18
 ccflags-y += -DDISABLE_BRANCH_PROFILING
 
 VDSO_LDFLAGS := -Bsymbolic
 
-CFLAGS_REMOVE_vgettimeofday.o = $(CC_FLAGS_FTRACE) -Os
+CFLAGS_REMOVE_vgettimeofday.o = $(CC_FLAGS_FTRACE) -Os $(CC_FLAGS_SCS)
 KBUILD_CFLAGS			+= $(DISABLE_LTO)
 KASAN_SANITIZE			:= n
 UBSAN_SANITIZE			:= n
@@ -55,10 +46,6 @@ ifeq ($(CONFIG_CC_IS_CLANG), y)
   endif
 endif
 
-<<<<<<< HEAD
->>>>>>> d98e9848ac37... UPSTREAM: arm64: vdso: Fix compilation with clang older than 8
-=======
->>>>>>> d98e9848ac37... UPSTREAM: arm64: vdso: Fix compilation with clang older than 8
 # Disable gcov profiling for VDSO code
 GCOV_PROFILE := n
 
@@ -71,19 +58,7 @@ $(obj)/vdso.o : $(obj)/vdso.so
 
 # Link rule for the .so file, .lds has to be first
 $(obj)/vdso.so.dbg: $(src)/vdso.lds $(obj-vdso)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	$(call if_changed,vdsold)
-=======
-	$(call if_changed,ld)
->>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
-=======
 	$(call if_changed,vdsold_and_vdso_check)
->>>>>>> cf1b4a8a6701... BACKPORT: arm64: vdso: fix flip/flop vdso build bug
-=======
-	$(call if_changed,ld)
->>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
 
 # Strip rule for the .so file
 $(obj)/%.so: OBJCOPYFLAGS := -S
@@ -100,29 +75,12 @@ endef
 include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
 	$(call if_changed,vdsosym)
 
-# Assembly rules for the .S files
-$(obj-vdso): %.o: %.S FORCE
-	$(call if_changed_dep,vdsoas)
-
 # Actual build commands
-<<<<<<< HEAD
-<<<<<<< HEAD
-quiet_cmd_vdsold = VDSOL   $@
-      cmd_vdsold = $(CC) $(c_flags) -Wl,-n -Wl,-T $^ -o $@
-<<<<<<< HEAD
-=======
->>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
 quiet_cmd_vdsoas = VDSOA   $@
       cmd_vdsoas = $(CC) $(a_flags) -c -o $@ $<
 
-=======
->>>>>>> b8f06ffcf19c... BACKPORT: arm64: vdso: Cleanup Makefiles
 quiet_cmd_vdsold_and_vdso_check = LD      $@
       cmd_vdsold_and_vdso_check = $(cmd_ld); $(cmd_vdso_check)
-=======
-quiet_cmd_vdsoas = VDSOA   $@
-      cmd_vdsoas = $(CC) $(a_flags) -c -o $@ $<
->>>>>>> 293424ec2787... BACKPORT: arm64: vdso: use $(LD) instead of $(CC) to link VDSO
 
 # Install commands for the unstripped file
 quiet_cmd_vdso_install = INSTALL $@

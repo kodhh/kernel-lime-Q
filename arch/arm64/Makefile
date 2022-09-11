@@ -49,90 +49,12 @@ $(warning Detected assembler with broken .inst; disassembly will be unreliable)
   endif
 endif
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 ifeq ($(cc-name),clang)
 KBUILD_CFLAGS	+= -mno-implicit-float
 else
 KBUILD_CFLAGS	+= -mgeneral-regs-only
-=======
-=======
->>>>>>> 70463c27165d... BACKPORT: arm64: vdso: Enable vDSO compat support
-ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
-  CROSS_COMPILE_COMPAT ?= $(CONFIG_CROSS_COMPILE_COMPAT_VDSO:"%"=%)
-
-  ifeq ($(CONFIG_CC_IS_CLANG), y)
-    $(warning CROSS_COMPILE_COMPAT is clang, the compat vDSO will not be built)
-<<<<<<< HEAD
-<<<<<<< HEAD
-  else ifeq ($(strip $(CROSS_COMPILE_COMPAT)),)
-=======
-  else ifeq ($(CROSS_COMPILE_COMPAT),)
->>>>>>> 70463c27165d... BACKPORT: arm64: vdso: Enable vDSO compat support
-=======
-  else ifeq ($(strip $(CROSS_COMPILE_COMPAT)),)
->>>>>>> 449e8cda56d6... UPSTREAM: arm64: vdso: Fix Makefile regression
-    $(warning CROSS_COMPILE_COMPAT not defined or empty, the compat vDSO will not be built)
-  else ifeq ($(shell which $(CROSS_COMPILE_COMPAT)gcc 2> /dev/null),)
-    $(error $(CROSS_COMPILE_COMPAT)gcc not found, check CROSS_COMPILE_COMPAT)
-  else
-    export CROSS_COMPILE_COMPAT
-    export CONFIG_COMPAT_VDSO := y
-    compat_vdso := -DCONFIG_COMPAT_VDSO=1
-  endif
-<<<<<<< HEAD
->>>>>>> 449e8cda56d6... UPSTREAM: arm64: vdso: Fix Makefile regression
-=======
-=======
-ifeq ($(CONFIG_CC_IS_CLANG), y)
-COMPATCC ?= $(CC) --target=$(notdir $(CROSS_COMPILE_COMPAT:%-=%))
-else
->>>>>>> 16df258295af... UPSTREAM: arm64: Default to building compat vDSO with clang when CONFIG_CC_IS_CLANG
-=======
-ifeq ($(CONFIG_CC_IS_CLANG), y)
-COMPATCC ?= $(CC) --target=$(notdir $(CROSS_COMPILE_COMPAT:%-=%))
-else
->>>>>>> 16df258295af... UPSTREAM: arm64: Default to building compat vDSO with clang when CONFIG_CC_IS_CLANG
-COMPATCC ?= $(CROSS_COMPILE_COMPAT)gcc
 endif
-export COMPATCC
-
-=======
->>>>>>> 4459f07e1330... UPSTREAM: arm64: vdso32: Move definition of COMPATCC into vdso32/Makefile
-ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
-  export CONFIG_COMPAT_VDSO := y
-  compat_vdso := -DCONFIG_COMPAT_VDSO=1
->>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
-endif
-KBUILD_CFLAGS	+= $(lseinstr) $(brokengasinst)
-=======
-KBUILD_CFLAGS	+= -mgeneral-regs-only $(lseinstr) $(brokengasinst) $(compat_vdso)
->>>>>>> f5a2c8a44fdf... BACKPORT: arm64: Kconfig: Make CONFIG_COMPAT_VDSO a proper Kconfig option
-=======
-=======
-COMPATCC ?= $(CROSS_COMPILE_COMPAT)gcc
-export COMPATCC
-
-=======
->>>>>>> 4459f07e1330... UPSTREAM: arm64: vdso32: Move definition of COMPATCC into vdso32/Makefile
-ifeq ($(CONFIG_GENERIC_COMPAT_VDSO), y)
-  export CONFIG_COMPAT_VDSO := y
-  compat_vdso := -DCONFIG_COMPAT_VDSO=1
->>>>>>> 69b135ba51fc... UPSTREAM: arm64: vdso32: Fix broken compat vDSO build warnings
-endif
-
-=======
->>>>>>> f5a2c8a44fdf... BACKPORT: arm64: Kconfig: Make CONFIG_COMPAT_VDSO a proper Kconfig option
-KBUILD_CFLAGS	+= -mgeneral-regs-only $(lseinstr) $(brokengasinst) $(compat_vdso)
->>>>>>> 70463c27165d... BACKPORT: arm64: vdso: Enable vDSO compat support
+KBUILD_CFLAGS	+= $(lseinstr) $(brokengasinst) $(compat_vdso)
 KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables
 KBUILD_CFLAGS	+= $(call cc-disable-warning, psabi)
 KBUILD_AFLAGS	+= $(lseinstr) $(brokengasinst) $(compat_vdso)

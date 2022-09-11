@@ -10,10 +10,7 @@
  */
 #undef CONFIG_64BIT
 
-<<<<<<< HEAD
 #define BUILD_VDSO32
-=======
->>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 #define CONFIG_32BIT 1
 #define CONFIG_GENERIC_ATOMIC64 1
 

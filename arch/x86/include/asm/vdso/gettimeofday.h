@@ -19,21 +19,12 @@
 #include <asm/msr.h>
 #include <asm/pvclock.h>
 #include <asm/mshyperv.h>
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include <linux/compat_time.h>
-=======
->>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
-=======
-#include <linux/compat_time.h>
->>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
 
 #define __vdso_data (VVAR(_vdso_data))
 
 #define VDSO_HAS_TIME 1
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 #define VDSO_HAS_CLOCK_GETRES 1
 
 /*
@@ -51,7 +42,6 @@
  * change over time, possibly while we're accessing them.
  */
 
-<<<<<<< HEAD
 #ifdef CONFIG_PARAVIRT_CLOCK
 /*
  * This is the vCPU 0 pvclock page.  We only use pvclock from the vDSO
@@ -59,36 +49,11 @@
  * vCPU 0 page.
  */
 extern struct pvclock_vsyscall_time_info pvclock_page
-=======
-=======
-#define VDSO_HAS_CLOCK_GETRES 1
-
->>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
-#ifdef CONFIG_PARAVIRT_CLOCK
-extern u8 pvclock_page[PAGE_SIZE]
->>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
-=======
-#ifdef CONFIG_PARAVIRT_CLOCK
-/*
- * This is the vCPU 0 pvclock page.  We only use pvclock from the vDSO
- * if the hypervisor tells us that all vCPUs can get valid data from the
- * vCPU 0 page.
- */
-extern struct pvclock_vsyscall_time_info pvclock_page
->>>>>>> d348db5c191b... UPSTREAM: x86/vdso: Give the [ph]vclock_page declarations real types
 	__attribute__((visibility("hidden")));
 #endif
 
 #ifdef CONFIG_HYPERV_TSCPAGE
-<<<<<<< HEAD
-<<<<<<< HEAD
 extern struct ms_hyperv_tsc_page hvclock_page
-=======
-extern u8 hvclock_page[PAGE_SIZE]
->>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
-=======
-extern struct ms_hyperv_tsc_page hvclock_page
->>>>>>> d348db5c191b... UPSTREAM: x86/vdso: Give the [ph]vclock_page declarations real types
 	__attribute__((visibility("hidden")));
 #endif
 
@@ -118,10 +83,6 @@ long gettimeofday_fallback(struct __kernel_old_timeval *_tv,
 	return ret;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
 static __always_inline
 long clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
 {
@@ -138,10 +99,6 @@ long clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
 
 #define VDSO_HAS_32BIT_FALLBACK	1
 
-=======
-#else
-
->>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
 static __always_inline
 long clock_gettime_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
 {
@@ -160,7 +117,6 @@ long clock_gettime_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
 }
 
 static __always_inline
-<<<<<<< HEAD
 long clock_gettime32_fallback(clockid_t _clkid, struct old_timespec32 *_ts)
 {
 	long ret;
@@ -178,8 +134,6 @@ long clock_gettime32_fallback(clockid_t _clkid, struct old_timespec32 *_ts)
 }
 
 static __always_inline
-=======
->>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
 long gettimeofday_fallback(struct __kernel_old_timeval *_tv,
 			   struct timezone *_tz)
 {
@@ -197,10 +151,6 @@ long gettimeofday_fallback(struct __kernel_old_timeval *_tv,
 	return ret;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
 static __always_inline long
 clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
 {
@@ -218,7 +168,6 @@ clock_getres_fallback(clockid_t _clkid, struct __kernel_timespec *_ts)
 	return ret;
 }
 
-<<<<<<< HEAD
 static __always_inline
 long clock_getres32_fallback(clockid_t _clkid, struct old_timespec32 *_ts)
 {
@@ -242,20 +191,6 @@ long clock_getres32_fallback(clockid_t _clkid, struct old_timespec32 *_ts)
 static u64 vread_pvclock(void)
 {
 	const struct pvclock_vcpu_time_info *pvti = &pvclock_page.pvti;
-=======
-=======
->>>>>>> 22742c2e2557... BACKPORT: x86/vdso: Add clock_getres() entry point
-#endif
-
-#ifdef CONFIG_PARAVIRT_CLOCK
-static u64 vread_pvclock(void)
-{
-<<<<<<< HEAD
-	const struct pvclock_vcpu_time_info *pvti = &get_pvti0()->pvti;
->>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
-=======
-	const struct pvclock_vcpu_time_info *pvti = &pvclock_page.pvti;
->>>>>>> d348db5c191b... UPSTREAM: x86/vdso: Give the [ph]vclock_page declarations real types
 	u32 version;
 	u64 ret;
 
@@ -297,18 +232,7 @@ static u64 vread_pvclock(void)
 #ifdef CONFIG_HYPERV_TSCPAGE
 static u64 vread_hvclock(void)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
 	return hv_read_tsc_page(&hvclock_page);
-=======
-	const struct ms_hyperv_tsc_page *tsc_pg =
-		(const struct ms_hyperv_tsc_page *)&hvclock_page;
-
-	return hv_read_tsc_page(tsc_pg);
->>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
-=======
-	return hv_read_tsc_page(&hvclock_page);
->>>>>>> d348db5c191b... UPSTREAM: x86/vdso: Give the [ph]vclock_page declarations real types
 }
 #endif
 
@@ -342,7 +266,6 @@ static __always_inline const struct vdso_data *__arch_get_vdso_data(void)
 	return __vdso_data;
 }
 
-<<<<<<< HEAD
 /*
  * x86 specific delta calculation.
  *
@@ -370,8 +293,6 @@ u64 vdso_calc_delta(u64 cycles, u64 last, u64 mask, u32 mult)
 }
 #define vdso_calc_delta vdso_calc_delta
 
-=======
->>>>>>> 5ddd47793d66... BACKPORT: x86/vdso: Switch to generic vDSO implementation
 #endif /* !__ASSEMBLY__ */
 
 #endif /* __ASM_VDSO_GETTIMEOFDAY_H */

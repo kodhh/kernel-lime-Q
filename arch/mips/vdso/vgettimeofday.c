@@ -31,38 +31,20 @@ int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
 	return __cvdso_gettimeofday(tv, tz);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
-=======
 #endif /* CONFIG_MIPS_CLOCK_VSYSCALL */
 
->>>>>>> cf84512fe7aa... UPSTREAM: mips: Fix gettimeofday() in the vdso library
 int __vdso_clock_getres(clockid_t clock_id,
 			struct old_timespec32 *res)
 {
 	return __cvdso_clock_getres_time32(clock_id, res);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 9abf17e726e1... UPSTREAM: mips: Add clock_gettime64 entry point
 int __vdso_clock_gettime64(clockid_t clock,
 			   struct __kernel_timespec *ts)
 {
 	return __cvdso_clock_gettime(clock, ts);
 }
 
-<<<<<<< HEAD
-=======
->>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
-=======
->>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
-=======
->>>>>>> 9abf17e726e1... UPSTREAM: mips: Add clock_gettime64 entry point
 #else
 
 int __vdso_clock_gettime(clockid_t clock,
@@ -85,24 +67,12 @@ int __vdso_gettimeofday(struct __kernel_old_timeval *tv,
 	return __cvdso_gettimeofday(tv, tz);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
-=======
 #endif /* CONFIG_MIPS_CLOCK_VSYSCALL */
 
->>>>>>> cf84512fe7aa... UPSTREAM: mips: Fix gettimeofday() in the vdso library
 int __vdso_clock_getres(clockid_t clock_id,
 			struct __kernel_timespec *res)
 {
 	return __cvdso_clock_getres(clock_id, res);
 }
 
-<<<<<<< HEAD
-=======
->>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
-=======
->>>>>>> 23dea1cf7ed3... UPSTREAM: mips: Add clock_getres entry point
 #endif

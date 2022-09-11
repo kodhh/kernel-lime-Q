@@ -124,15 +124,7 @@ $(obj-vdso): KBUILD_AFLAGS := $(aflags-vdso) $(native-abi)
 $(obj)/vdso.lds: KBUILD_CPPFLAGS := $(ccflags-vdso) $(native-abi)
 
 $(obj)/vdso.so.dbg.raw: $(obj)/vdso.lds $(obj-vdso) FORCE
-<<<<<<< HEAD
-	$(call if_changed,vdsold)
-<<<<<<< HEAD
-=======
 	$(call if_changed,vdsold_and_vdso_check)
->>>>>>> cfeb91a76316... UPSTREAM: mips: vdso: Fix flip/flop vdso building bug
-=======
-	$(call if_changed,vdso_check)
->>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 
 $(obj)/vdso-image.c: $(obj)/vdso.so.dbg.raw $(obj)/vdso.so.raw \
                      $(obj)/genvdso FORCE
@@ -170,15 +162,7 @@ $(obj)/vdso-o32.lds: $(src)/vdso.lds.S FORCE
 	$(call if_changed_dep,cpp_lds_S)
 
 $(obj)/vdso-o32.so.dbg.raw: $(obj)/vdso-o32.lds $(obj-vdso-o32) FORCE
-<<<<<<< HEAD
-	$(call if_changed,vdsold)
-<<<<<<< HEAD
-=======
 	$(call if_changed,vdsold_and_vdso_check)
->>>>>>> cfeb91a76316... UPSTREAM: mips: vdso: Fix flip/flop vdso building bug
-=======
-	$(call if_changed,vdso_check)
->>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 
 $(obj)/vdso-o32-image.c: VDSO_NAME := o32
 $(obj)/vdso-o32-image.c: $(obj)/vdso-o32.so.dbg.raw $(obj)/vdso-o32.so.raw \
@@ -218,15 +202,7 @@ $(obj)/vdso-n32.lds: $(src)/vdso.lds.S FORCE
 	$(call if_changed_dep,cpp_lds_S)
 
 $(obj)/vdso-n32.so.dbg.raw: $(obj)/vdso-n32.lds $(obj-vdso-n32) FORCE
-<<<<<<< HEAD
-	$(call if_changed,vdsold)
-<<<<<<< HEAD
-=======
 	$(call if_changed,vdsold_and_vdso_check)
->>>>>>> cfeb91a76316... UPSTREAM: mips: vdso: Fix flip/flop vdso building bug
-=======
-	$(call if_changed,vdso_check)
->>>>>>> 6b7f832e465d... BACKPORT: mips: Add support for generic vDSO
 
 $(obj)/vdso-n32-image.c: VDSO_NAME := n32
 $(obj)/vdso-n32-image.c: $(obj)/vdso-n32.so.dbg.raw $(obj)/vdso-n32.so.raw \

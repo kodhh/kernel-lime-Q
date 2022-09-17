@@ -425,6 +425,58 @@ static int xhci_plat_remove(struct platform_device *dev)
 	return 0;
 }
 
+static int __maybe_unused xhci_plat_suspend(struct device *dev)
+{
+	struct usb_hcd  *hcd = dev_get_drvdata(dev);
+	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+
+	if (!xhci)
+		return 0;
+
+	/*
+	 * 'skip_resume' will be true for targets not supporting PM suspend if
+	 * runtimePM state is active. No need of xhci_plat PM ops in such case.
+	 */
+	if (hcd_to_bus(hcd)->skip_resume) {
+		dev_dbg(dev, "xhci-plat skip PM suspend\n");
+		return 0;
+	}
+
+	dev_dbg(dev, "xhci-plat PM suspend\n");
+
+	/* Disable wakeup capability */
+	return xhci_suspend(xhci, false);
+}
+
+static int __maybe_unused xhci_plat_resume(struct device *dev)
+{
+	struct usb_hcd  *hcd = dev_get_drvdata(dev);
+	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+	int ret;
+
+	if (!xhci)
+		return 0;
+
+	/* xhci PM ops not required if 'skip_resume' is true */
+	if (hcd_to_bus(hcd)->skip_resume) {
+		dev_dbg(dev, "xhci-plat skip PM resume\n");
+		return 0;
+	}
+
+	dev_dbg(dev, "xhci-plat PM resume\n");
+
+	ret = xhci_priv_resume_quirk(hcd);
+	if (ret)
+		return ret;
+
+	ret = xhci_resume(xhci, false);
+	pm_runtime_disable(dev);
+	pm_runtime_set_active(dev);
+	pm_runtime_enable(dev);
+
+	return ret;
+}
+
 static int __maybe_unused xhci_plat_runtime_idle(struct device *dev)
 {
 	/*
@@ -437,23 +489,9 @@ static int __maybe_unused xhci_plat_runtime_idle(struct device *dev)
 	 * before suspend we have to call pm_runtime_autosuspend() manually.
 	 */
 
-<<<<<<< HEAD
 	pm_runtime_mark_last_busy(dev);
 	pm_runtime_autosuspend(dev);
 	return -EBUSY;
-=======
-static int __maybe_unused xhci_plat_resume(struct device *dev)
-{
-	struct usb_hcd	*hcd = dev_get_drvdata(dev);
-	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
-	int ret;
-
-	ret = xhci_priv_resume_quirk(hcd);
-	if (ret)
-		return ret;
-
-	return xhci_resume(xhci, 0);
->>>>>>> 035c6e1b47c3... Merge 4.19.134 into android-4.19-q
 }
 
 static int __maybe_unused xhci_plat_runtime_suspend(struct device *dev)

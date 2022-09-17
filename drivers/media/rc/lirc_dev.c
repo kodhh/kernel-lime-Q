@@ -29,7 +29,8 @@
 #include <media/lirc.h>
 #include <media/lirc_dev.h>
 
-#define LIRCBUF_SIZE	1024
+#define NOPLUG		-1
+#define LOGHEAD		"lirc_dev (%s[%d]): "
 
 static dev_t lirc_base_dev;
 
@@ -53,7 +54,6 @@ static struct irctl *irctls[MAX_IRCTL_DEVICES];
 
 /* Only used for sysfs but defined to void otherwise */
 static struct class *lirc_class;
-
 
 static void lirc_release(struct device *ld)
 {

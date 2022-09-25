@@ -15,7 +15,7 @@
 # Makefile for generic software bridge module.
 #
 KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
-obj-m += gsb.o
+obj-y += gsb.o
 MY_CFLAGS += -g
 ccflags-y += ${MY_CFLAGS}
 CC += ${MY_CFLAGS}

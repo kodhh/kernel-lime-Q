@@ -1,0 +1,32 @@
+--- drivers/block/zram/zram_drv.c
++++ drivers/block/zram/zram_drv.c
+@@ -332,6 +372,9 @@ static ssize_t idle_store(struct device *dev,
+ 	struct zram *zram = dev_to_zram(dev);
+ 	unsigned long nr_pages = zram->disksize >> PAGE_SHIFT;
+ 	int index;
++#if IS_ENABLED(CONFIG_MIUI_ZRAM_MEMORY_TRACKING)
++	int mark_nr = 0;
++#endif
+ 
+ 	if (!sysfs_streq(buf, "all"))
+ 		return -EINVAL;
+@@ -779,8 +930,19 @@ static ssize_t writeback_store(struct device *dev,
+ 	ssize_t ret;
+ 	int mode;
+ 	unsigned long blk_idx = 0;
++#if IS_ENABLED(CONFIG_MIUI_ZRAM_MEMORY_TRACKING)
++	unsigned long wb_max = ULONG_MAX;
++	unsigned long wb_pages_nr = 0;
++	unsigned int wb_idle_min = ZRAM_WB_IDLE_DEFAULT;
++#endif
+ 
++#if !IS_ENABLED(CONFIG_MIUI_ZRAM_MEMORY_TRACKING)
+ 	if (sysfs_streq(buf, "idle"))
++#else
++	if (writeback_parse_input(buf, &wb_max, &wb_idle_min))
++		mode = IDLE_WRITEBACK;
++	else if (sysfs_streq(buf, "idle"))
++#endif
+ 		mode = IDLE_WRITEBACK;
+ 	else if (sysfs_streq(buf, "huge"))
+ 		mode = HUGE_WRITEBACK;
